@@ -35,7 +35,7 @@ export function fetchFriends() {
 
 export function createFriend(friend) {
   return function(dispatch) {
-    return API.createFriend(friend)
+    return API.createFriend({friend})
       .then(res => {
         dispatch(createFriendSuccess(res.friend));
       })

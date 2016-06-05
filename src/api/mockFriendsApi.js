@@ -70,8 +70,9 @@ class FriendsApi {
     });
   }
 
-  static createFriend(friend) {
+  static createFriend(payload) {
     console.log('LOG: using mock friends API -> create.'); // eslint-disable-line no-console
+    let friend = payload.friend;
     return new Promise((resolve) => {
       setTimeout(() => {
         friend.id = id++;

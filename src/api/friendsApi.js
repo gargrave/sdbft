@@ -16,8 +16,21 @@ class FriendsApi {
 
   static fetchFriends() {
     return new Promise((resolve, reject) => {
-      request
-        .get(API_ROOT)
+      request.get(API_ROOT)
+        .end((err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res.body);
+          }
+        });
+    });
+  }
+
+  static createFriend(payload) {
+    return new Promise((resolve, reject) => {
+      request.post(API_ROOT)
+        .send(payload)
         .end((err, res) => {
           if (err) {
             reject(err);
