@@ -1,17 +1,17 @@
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 
 const FriendRow = ({friend}) => {
   return (
     <tr>
-      <td>{friend.first_name}</td>
-      <td>{friend.last_name}</td>
+      <td><Link to={`/friend/${friend.id}`}>{friend.first_name} {friend.last_name}</Link></td>
       <td>{friend.email}</td>
       <td>{friend.twitter}</td>
     </tr>
   );
 };
 
-FriendRow.PropTypes = {
+FriendRow.propTypes = {
   friend: PropTypes.object.isRequired
 };
 

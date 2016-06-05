@@ -50,6 +50,7 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
 
       <button
         className="button button-outline float-right"
+        disabled={saving}
         onClick={onCancel}
       >Cancel
       </button>
@@ -57,7 +58,7 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
   );
 };
 
-FriendForm.PropTypes = {
+FriendForm.propTypes = {
   friend: PropTypes.object.isRequired,
   saving: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,

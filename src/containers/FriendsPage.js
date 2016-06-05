@@ -27,7 +27,7 @@ class FriendsPage extends React.Component {
   }
 
   gotoAddFriendPage() {
-    browserHistory.push('/friends/add');
+    browserHistory.push('/friend');
   }
 
   /*=============================================

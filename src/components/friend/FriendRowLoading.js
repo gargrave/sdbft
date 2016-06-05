@@ -6,6 +6,6 @@ const FriendRowLoading = () => {
   );
 };
 
-FriendRowLoading.PropTypes = {};
+FriendRowLoading.propTypes = {};
 
 export default FriendRowLoading;

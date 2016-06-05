@@ -2,11 +2,12 @@ import React, {PropTypes} from 'react';
 import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import toastr from 'toastr';
 
 import * as actions from '../actions/friendsActions';
 import FriendForm from '../components/friend/FriendForm';
 
-class CreateFriendPage extends React.Component {
+class ManageFriendPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -19,12 +20,21 @@ class CreateFriendPage extends React.Component {
     //<editor-fold desc="Method Binders">
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     //</editor-fold>
+  }
+
+  /*=============================================
+   = Lifecycle Methods
+   =============================================*/
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.friend && (this.state.friend.id != nextProps.friend.id)) {
+      this.setState({friend: nextProps.friend});
+    }
   }
 
   validate() {
     let valid = true;
-    // TODO implement validation
     let errors = {};
     let first = this.state.friend.first_name;
     let last = this.state.friend.last_name;
@@ -58,9 +68,9 @@ class CreateFriendPage extends React.Component {
   /*=============================================
    = Action Handlers
    =============================================*/
+  //<editor-fold desc="Action Handlers">
   onChange(event) {
     event.preventDefault();
-
     let propKey = event.target.name;
     let friend = this.state.friend;
     friend[propKey] = event.target.value;
@@ -69,21 +79,33 @@ class CreateFriendPage extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
-
     if (this.validate()) {
       this.setState({saving: true});
       this.props.actions.createFriend(this.state.friend)
         .then(res => {
+          toastr.success('Friend created!');
           browserHistory.push('/friends');
+        })
+        .catch(err => {
+          this.setState({saving: false});
+          toastr.error(err);
         });
     }
   }
 
   onCancel(event) {
     event.preventDefault();
-
     browserHistory.push('/friends/');
   }
+
+  onDelete(event) {
+    event.preventDefault();
+    if (confirm('Delete this friend?')) {
+
+    }
+  }
+
+  //</editor-fold>
 
   /*=============================================
    = Render
@@ -93,7 +115,7 @@ class CreateFriendPage extends React.Component {
       <div className="row">
         <div className="column">
 
-          <h1>Add a Friend</h1>
+          <h1>{this.props.header}</h1>
           <hr/>
           <FriendForm
             friend={this.state.friend}
@@ -103,6 +125,10 @@ class CreateFriendPage extends React.Component {
             onCancel={this.onCancel}
             errors={this.state.errors}
           />
+          <hr/>
+          {!!(this.props.friend.id) &&
+          <a href="" onClick={this.onDelete}>Delete this friend</a>
+          }
 
         </div>
       </div>
@@ -113,7 +139,8 @@ class CreateFriendPage extends React.Component {
 /*=============================================
  = Props Validation
  =============================================*/
-CreateFriendPage.propTypes = {
+ManageFriendPage.propTypes = {
+  header: PropTypes.string.isRequired,
   friend: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
@@ -122,16 +149,32 @@ CreateFriendPage.propTypes = {
  = Redux setup
  =============================================*/
 //<editor-fold desc="Redux Setup">
+function getFriendById(friends, id) {
+  let friend = friends.filter(friend => friend.id == id);
+  if (friend) {
+    return friend[0];
+  }
+  return null;
+}
+
 function mapStateToProps(state, ownProps) {
+  let friendId = ownProps.params.id;
   let friend = {
     first_name: '',
     last_name: '',
     email: '',
     twitter: ''
   };
+  let header = 'Add a Friend';
+
+  if (friendId && state.friends.length > 0) {
+    friend = getFriendById(state.friends, friendId);
+    header = 'Manage Friend';
+  }
 
   return {
-    friend
+    friend,
+    header
   };
 }
 
@@ -142,4 +185,4 @@ function mapDispatchToProps(dispatch) {
 }
 //</editor-fold>
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateFriendPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageFriendPage);

@@ -17,7 +17,7 @@ const FriendsListHeader = ({addFriend}) => {
   );
 };
 
-FriendsListHeader.PropTypes = {
+FriendsListHeader.propTypes = {
   addFriend: PropTypes.func.isRequired
 };
 

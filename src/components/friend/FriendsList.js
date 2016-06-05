@@ -11,8 +11,7 @@ const FriendsTable = ({friends}) => {
         <table>
           <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Email</th>
             <th>Twitter</th>
           </tr>
@@ -30,7 +29,7 @@ const FriendsTable = ({friends}) => {
   );
 };
 
-FriendsTable.PropTypes = {
+FriendsTable.propTypes = {
   friends: PropTypes.array.isRequired
 };
 

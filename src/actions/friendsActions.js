@@ -44,3 +44,9 @@ export function createFriend(friend) {
       });
   };
 }
+
+export function deleteFriend(friendId) {
+  return function(dispatch) {
+    
+  }
+}
