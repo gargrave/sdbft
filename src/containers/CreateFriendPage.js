@@ -1,14 +1,60 @@
 import React, {PropTypes} from 'react';
+import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as IMPORT_ACTIONS from '';
+
+import * as actions from '../actions/friendsActions';
+import FriendForm from '../components/friend/FriendForm';
 
 class CreateFriendPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      friend: Object.assign({}, props.friend),
+      saving: false
+    };
+
     //<editor-fold desc="Method Binders">
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     //</editor-fold>
+  }
+
+  validate() {
+    let valid = true;
+    // TODO implement validation
+    return valid;
+  }
+
+  /*=============================================
+   = Action Handlers
+   =============================================*/
+  onChange(event) {
+    event.preventDefault();
+
+    let propKey = event.target.name;
+    let friend = this.state.friend;
+    friend[propKey] = event.target.value;
+    this.setState({friend});
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+
+    if (this.validate()) {
+      this.setState({saving: true});
+      this.props.actions.createFriend(this.state.friend)
+        .then(res => {
+          browserHistory.push('/friends');
+        });
+    }
+  }
+
+  onCancel(event) {
+    event.preventDefault();
+
+    browserHistory.push('/friends/');
   }
 
   /*=============================================
@@ -16,7 +62,20 @@ class CreateFriendPage extends React.Component {
    =============================================*/
   render() {
     return (
-      <div>
+      <div className="row">
+        <div className="column">
+
+          <h1>Add a Friend</h1>
+          <hr/>
+          <FriendForm
+            friend={this.state.friend}
+            saving={this.state.saving}
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
+            onCancel={this.onCancel}
+          />
+
+        </div>
       </div>
     );
   }
@@ -26,7 +85,8 @@ class CreateFriendPage extends React.Component {
  = Props Validation
  =============================================*/
 CreateFriendPage.propTypes = {
-  // myProp: PropTypes.object.isRequired
+  friend: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 /*=============================================
@@ -34,15 +94,21 @@ CreateFriendPage.propTypes = {
  =============================================*/
 //<editor-fold desc="Redux Setup">
 function mapStateToProps(state, ownProps) {
+  let friend = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    twitter: ''
+  };
+
   return {
-    state: state
+    friend
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    // ex: createCourse: course => dispatch(courseActions.createCourse(course))
-    actions: bindActionCreators(IMPORT_ACTIONS, dispatch)
+    actions: bindActionCreators(actions, dispatch)
   };
 }
 //</editor-fold>

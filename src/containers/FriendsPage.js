@@ -1,9 +1,11 @@
 import React, {PropTypes} from 'react';
+import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as actions from '../actions/friendsActions';
 import FriendsList from '../components/friend/FriendsList';
+import FriendsListHeader from '../components/friend/FriendsListHeader';
 
 import '../styles/friends-page.css';
 
@@ -12,17 +14,21 @@ class FriendsPage extends React.Component {
     super(props, context);
 
     //<editor-fold desc="Method Binders">
+    this.onAddFriendClick = this.onAddFriendClick.bind(this);
     //</editor-fold>
   }
 
   /*=============================================
-   = Lifecycle Methods
+   = Action Handlers
    =============================================*/
-  componentDidMount() {
-    // load friends list on mounting
-    this.props.actions.fetchFriends();
+  onAddFriendClick(event) {
+    event.preventDefault();
+    this.gotoAddFriendPage();
   }
 
+  gotoAddFriendPage() {
+    browserHistory.push('/friends/add');
+  }
 
   /*=============================================
    = Render
@@ -30,9 +36,13 @@ class FriendsPage extends React.Component {
   render() {
     const {friends} = this.props;
     return (
-      <div>
-        <h1>Friends</h1>
-        <FriendsList friends={this.props.friends}/>
+      <div className="row">
+        <div className="column">
+
+          <FriendsListHeader addFriend={this.onAddFriendClick}/>
+          <FriendsList friends={this.props.friends}/>
+
+        </div>
       </div>
     );
   }
@@ -42,7 +52,8 @@ class FriendsPage extends React.Component {
  = Props Validation
  =============================================*/
 FriendsPage.propTypes = {
-  friends: PropTypes.array.isRequired
+  friends: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 /*=============================================
@@ -57,7 +68,6 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // ex: createCourse: course => dispatch(courseActions.createCourse(course))
     actions: bindActionCreators(actions, dispatch)
   };
 }

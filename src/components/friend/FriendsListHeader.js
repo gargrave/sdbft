@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-const FriendsListHeader = () => {
+const FriendsListHeader = ({addFriend}) => {
   return (
     <div>
       <div className="row">
@@ -10,13 +10,15 @@ const FriendsListHeader = () => {
       </div>
       <div className="row">
         <div className="column">
-          <button>Add a Friend</button>
+          <button onClick={addFriend}>Add a Friend</button>
         </div>
       </div>
     </div>
   );
 };
 
-FriendsListHeader.PropTypes = {};
+FriendsListHeader.PropTypes = {
+  addFriend: PropTypes.func.isRequired
+};
 
 export default FriendsListHeader;

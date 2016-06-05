@@ -14,6 +14,13 @@ function fetchFriendsSuccess(friends) {
   };
 }
 
+function createFriendSuccess(friend) {
+  return {
+    type: types.CREATE_FRIEND_SUCCESS,
+    friend
+  };
+}
+
 export function fetchFriends() {
   return function(dispatch) {
     return API.fetchFriends()
@@ -21,7 +28,18 @@ export function fetchFriends() {
         dispatch(fetchFriendsSuccess(res.friends));
       })
       .catch(err => {
-        console.log(err);
+        throw(err);
+      });
+  };
+}
+
+export function createFriend(friend) {
+  return function(dispatch) {
+    return API.createFriend(friend)
+      .then(res => {
+        dispatch(createFriendSuccess(res.friend));
+      })
+      .catch(err => {
         throw(err);
       });
   };

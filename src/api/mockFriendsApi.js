@@ -1,8 +1,9 @@
 import {MOCK_API_DELAY} from '../constants/env';
 
+let id = 0;
 const friends = [
   {
-    id: 15734,
+    id: id++,
     first_name: "Barry",
     last_name: "Linco",
     email: "barry@linco.com",
@@ -10,7 +11,7 @@ const friends = [
     total_articles: 0
   },
   {
-    id: 15735,
+    id: id++,
     first_name: "Trish",
     last_name: "Baby",
     email: "baby@baby.com",
@@ -18,7 +19,7 @@ const friends = [
     total_articles: 0
   },
   {
-    id: 15728,
+    id: id++,
     first_name: "Leila",
     last_name: "Chambers",
     email: "woxa@yahoo.com",
@@ -26,7 +27,7 @@ const friends = [
     total_articles: 4
   },
   {
-    id: 15724,
+    id: id++,
     first_name: "Holly",
     last_name: "Delgado",
     email: "danaly@yahoo.com",
@@ -34,7 +35,7 @@ const friends = [
     total_articles: 0
   },
   {
-    id: 15725,
+    id: id++,
     first_name: "Harper",
     last_name: "Wheeler",
     email: "nilip@gmail.com",
@@ -42,7 +43,7 @@ const friends = [
     total_articles: 0
   },
   {
-    id: 15722,
+    id: id++,
     first_name: "Otto",
     last_name: "Zimmerman",
     email: "lygolivaki@gmail.com",
@@ -50,7 +51,7 @@ const friends = [
     total_articles: 1
   },
   {
-    id: 15730,
+    id: id++,
     first_name: "Jimmy",
     last_name: "Jones",
     email: "jimmy.jones@gmail.com",
@@ -61,10 +62,21 @@ const friends = [
 
 class FriendsApi {
   static fetchFriends() {
-    console.log('LOG: using mock friends API.'); // eslint-disable-line no-console
-    return new Promise((resolve, reject) => {
+    console.log('LOG: using mock friends API -> fetch all.'); // eslint-disable-line no-console
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve({friends: Object.assign([], friends)});
+      }, MOCK_API_DELAY);
+    });
+  }
+
+  static createFriend(friend) {
+    console.log('LOG: using mock friends API -> create.'); // eslint-disable-line no-console
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        friend.id = id++;
+        friends.push(friend);
+        resolve({friend: Object.assign([], friend)});
       }, MOCK_API_DELAY);
     });
   }
