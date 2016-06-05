@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react';
 
-const TextInput = ({value, placeholder, name, onChange}) => {
+const TextInput = ({label, value, placeholder, name, onChange, error}) => {
   return (
     <div>
+      <label htmlFor={name}>{label}</label>
+      {!!error && <span className="error-msg">{error}</span>}
       <input
         type="text"
         placeholder={placeholder}
@@ -15,10 +17,12 @@ const TextInput = ({value, placeholder, name, onChange}) => {
 };
 
 TextInput.PropTypes = {
+  label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired
 };
 
 export default TextInput;

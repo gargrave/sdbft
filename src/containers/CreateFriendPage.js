@@ -12,6 +12,7 @@ class CreateFriendPage extends React.Component {
 
     this.state = {
       friend: Object.assign({}, props.friend),
+      errors: {},
       saving: false
     };
 
@@ -24,6 +25,33 @@ class CreateFriendPage extends React.Component {
   validate() {
     let valid = true;
     // TODO implement validation
+    let errors = {};
+    let first = this.state.friend.first_name;
+    let last = this.state.friend.last_name;
+    let email = this.state.friend.email;
+    let twitter = this.state.friend.twitter;
+
+    if (first.length < 2) {
+      errors.first_name = 'First name must be a least 2 characters in length.';
+      valid = false;
+    }
+
+    if (last.length < 2) {
+      errors.last_name = 'Last name must be a least 2 characters in length.';
+      valid = false;
+    }
+
+    if (email.length === 0) {
+      errors.email = 'You must provide an email address.';
+      valid = false;
+    }
+
+    if (twitter.length === 0) {
+      errors.twitter = 'You must provide a Twitter handle.';
+      valid = false;
+    }
+
+    this.setState({errors});
     return valid;
   }
 
@@ -73,6 +101,7 @@ class CreateFriendPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             onCancel={this.onCancel}
+            errors={this.state.errors}
           />
 
         </div>
