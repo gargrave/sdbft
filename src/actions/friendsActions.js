@@ -21,11 +21,14 @@ function createFriendSuccess(friend) {
   };
 }
 
+/*=============================================
+ = Thunk Action Creators
+ =============================================*/
 export function fetchFriends() {
   return function(dispatch) {
     return API.fetchFriends()
       .then(res => {
-        dispatch(fetchFriendsSuccess(res.friends));
+        dispatch(fetchFriendsSuccess(res));
       })
       .catch(err => {
         throw(err);
@@ -43,10 +46,4 @@ export function createFriend(friend) {
         throw(err);
       });
   };
-}
-
-export function deleteFriend(friendId) {
-  return function(dispatch) {
-    
-  }
 }

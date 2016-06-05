@@ -24,6 +24,7 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "firebase": "3.0.3",
     "jquery": "2.2.4",
     "lodash": "4.13.1",
     "milligram": "1.1.0",
@@ -34,7 +35,6 @@
     "react-router": "2.4.0",
     "redux": "3.5.2",
     "redux-thunk": "2.1.0",
-    "superagent": "2.0.0",
     "toastr": "2.1.2"
   },
   "devDependencies": {
