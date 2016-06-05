@@ -61,12 +61,12 @@ const friends = [
 
 class FriendsApi {
   static fetchFriends() {
-    console.log('LOG: using mock friends API.');
+    console.log('LOG: using mock friends API.'); // eslint-disable-line no-console
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({friends: Object.assign([], friends)});
       }, MOCK_API_DELAY);
-    })
+    });
   }
 }
 

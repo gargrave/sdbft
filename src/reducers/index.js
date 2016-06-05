@@ -1,9 +1,7 @@
-import { combineReducers } from 'redux';
-import fuelSavings from './fuelSavingsReducer';
+import {combineReducers} from 'redux';
 import friends from './friendsReducer';
 
 const rootReducer = combineReducers({
-  fuelSavings,
   friends
 });
 
