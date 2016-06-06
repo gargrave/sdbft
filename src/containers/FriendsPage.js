@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions/friendsActions';
 import FriendsList from '../components/friend/FriendsList';
 import FriendsListHeader from '../components/friend/FriendsListHeader';
-import fb from '../firebaseApi';
 
 import '../styles/friends-page.css';
 

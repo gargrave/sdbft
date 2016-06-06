@@ -1,5 +1,6 @@
 import * as types from '../constants/actionTypes';
 import {USE_MOCK_APIS} from '../constants/env';
+import {fbToArray} from '../utils/firebaseUtils';
 
 import mockFriendsApi from '../api/mockFriendsApi';
 import liveFriendsApi from '../api/friendsApi';
@@ -14,35 +15,72 @@ function fetchFriendsSuccess(friends) {
   };
 }
 
-function createFriendSuccess(friend) {
+function saveFriendSuccess(friend) {
   return {
-    type: types.CREATE_FRIEND_SUCCESS,
+    type: types.SAVE_FRIEND_SUCCESS,
     friend
+  };
+}
+function saveFriendError() {
+  return {
+    type: types.SAVE_FRIEND_ERROR
+  };
+}
+
+function deleteFriendSuccess() {
+  return {
+    type: types.DELETE_FRIEND_SUCCESS
+  };
+}
+function deleteFriendError() {
+  return {
+    type: types.DELETE_FRIEND_ERROR
   };
 }
 
 /*=============================================
  = Thunk Action Creators
  =============================================*/
-export function fetchFriends() {
+export function updateFriends(friends) {
   return function(dispatch) {
-    return API.fetchFriends()
+    dispatch(fetchFriendsSuccess(fbToArray(friends)));
+  };
+}
+
+export function saveFriend(friend) {
+  return function(dispatch) {
+    return API.createFriend(friend)
       .then(res => {
-        dispatch(fetchFriendsSuccess(res));
+        dispatch(saveFriendSuccess(fbToArray(res)));
       })
       .catch(err => {
+        dispatch(saveFriendError());
         throw(err);
       });
   };
 }
 
-export function createFriend(friend) {
+export function updateFriend(friend) {
   return function(dispatch) {
-    return API.createFriend({friend})
+    return API.updateFriend(friend)
       .then(res => {
-        dispatch(createFriendSuccess(res.friend));
+        dispatch(saveFriendSuccess(fbToArray(res)));
       })
       .catch(err => {
+        dispatch(saveFriendError());
+        throw(err);
+      });
+  };
+}
+
+export function deleteFriend(friend) {
+  return function(dispatch) {
+    return API.deleteFriend(friend)
+      .then(res => {
+        dispatch(deleteFriendSuccess());
+      })
+      .catch(err => {
+        dispatch(deleteFriendError());
         throw(err);
       });
   };

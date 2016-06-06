@@ -77,13 +77,25 @@ class ManageFriendPage extends React.Component {
     this.setState({friend});
   }
 
+  /**
+   * Creates or updates a friend based on the current view
+   * @param event
+   */
   onSubmit(event) {
     event.preventDefault();
     if (this.validate()) {
+      const updating = !!this.props.friend.id;
+      // if we have an existing friend id, update; otherwise create
+      let fnc = updating ?
+        this.props.actions.updateFriend :
+        this.props.actions.saveFriend;
+      // show different message based on state
+      let successMsg = 'Friend ' + (updating ? ' updated!' : 'created!');
+
       this.setState({saving: true});
-      this.props.actions.createFriend(this.state.friend)
-        .then(res => {
-          toastr.success('Friend created!');
+      fnc(this.state.friend)
+        .then(() => {
+          toastr.success(successMsg, 'Success!');
           browserHistory.push('/friends');
         })
         .catch(err => {
@@ -101,7 +113,15 @@ class ManageFriendPage extends React.Component {
   onDelete(event) {
     event.preventDefault();
     if (confirm('Delete this friend?')) {
-
+      this.props.actions.deleteFriend(this.state.friend)
+        .then(() => {
+          toastr.success('Friend deleted!', 'Success!');
+        })
+        .catch(err => {
+          this.setState({saving: false});
+          toastr.error(err);
+        });
+      browserHistory.push('/friends');
     }
   }
 
@@ -126,7 +146,7 @@ class ManageFriendPage extends React.Component {
             errors={this.state.errors}
           />
           <hr/>
-          {!!(this.props.friend.id) &&
+          {this.props.friend.id &&
           <a href="" onClick={this.onDelete}>Delete this friend</a>
           }
 
@@ -165,11 +185,13 @@ function mapStateToProps(state, ownProps) {
     email: '',
     twitter: ''
   };
-  let header = 'Add a Friend';
+  let header = 'Manage Friend';
 
   if (friendId && state.friends.length > 0) {
-    friend = getFriendById(state.friends, friendId);
-    header = 'Manage Friend';
+    let existingFriend = getFriendById(state.friends, friendId);
+    if (existingFriend) {
+      friend = existingFriend;
+    }
   }
 
   return {

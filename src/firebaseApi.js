@@ -7,8 +7,4 @@ firebase.initializeApp({
   storageBucket: "react-test-5db9f.appspot.com"
 });
 
-let database = firebase.database();
-
-export default {
-  db: database
-};
+export default firebase;

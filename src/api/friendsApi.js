@@ -1,18 +1,50 @@
-import fb from '../firebaseApi';
+import firebase from '../firebaseApi';
 
+const REF = firebase.database().ref('friends');
+
+const getUrlFor = function(obj) {
+  return firebase.database().ref(`friends/${obj.id}`);
+};
 
 class FriendsApi {
-  static fetchFriends() {
+  static createFriend(friend) {
     return new Promise((resolve, reject) => {
-      fb.db.ref('friends').on('value', snapshot => {
-        resolve(snapshot.val());
+      let newFriend = REF.push();
+      newFriend.set(friend, err => {
+        if (err) {
+          reject(err);
+        } else {
+          REF.limitToLast(1).once('value', snapshot => {
+            resolve(snapshot.val());
+          });
+        }
       });
     });
   }
 
-  static createFriend(payload) {
+  static updateFriend(friend) {
+    let friendUrl = getUrlFor(friend);
     return new Promise((resolve, reject) => {
-      reject('Firebase creation not implemented.');
+      friendUrl.update(friend, err => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  static deleteFriend(friend) {
+    let friendUrl = getUrlFor(friend);
+    return new Promise((resolve, reject) => {
+      friendUrl.remove()
+        .then(function() {
+          resolve();
+        })
+        .catch(function(err) {
+          reject(err);
+        });
     });
   }
 }
