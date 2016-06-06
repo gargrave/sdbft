@@ -86,14 +86,14 @@ class ManageFriendPage extends React.Component {
     if (this.validate()) {
       const updating = !!this.props.friend.id;
       // if we have an existing friend id, update; otherwise create
-      let fnc = updating ?
+      let apiCall = updating ?
         this.props.actions.updateFriend :
         this.props.actions.saveFriend;
       // show different message based on state
       let successMsg = 'Friend ' + (updating ? ' updated!' : 'created!');
 
       this.setState({saving: true});
-      fnc(this.state.friend)
+      apiCall(this.state.friend)
         .then(() => {
           toastr.success(successMsg, 'Success!');
           browserHistory.push('/friends');
@@ -105,11 +105,19 @@ class ManageFriendPage extends React.Component {
     }
   }
 
+  /**
+   * Returns to the main friends page
+   * @param event
+   */
   onCancel(event) {
     event.preventDefault();
     browserHistory.push('/friends/');
   }
 
+  /**
+   * Sends a request to delete the current friend (after confirming with the user)
+   * @param event
+   */
   onDelete(event) {
     event.preventDefault();
     if (confirm('Delete this friend?')) {
