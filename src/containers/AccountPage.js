@@ -1,10 +1,12 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import toastr from 'toastr';
 
 import * as actions from '../actions/friendsActions';
 import auth from '../utils/firebase/firebaseAuth';
 import LoginForm from '../components/account/LoginForm';
+import UserInfo from '../components/account/UserInfo';
 
 class AccountPage extends React.Component {
   constructor(props, context) {
@@ -12,7 +14,10 @@ class AccountPage extends React.Component {
 
     this.state = {
       saving: false,
-      user: Object.assign({}, props.user)
+      loginUser: {
+        email: '',
+        pass: ''
+      }
     };
 
     //<editor-fold desc="Method Binders">
@@ -25,29 +30,34 @@ class AccountPage extends React.Component {
   onChange(event) {
     event.preventDefault();
     let propKey = event.target.name;
-    let user = this.state.user;
-    user[propKey] = event.target.value;
-    this.setState({user});
+    let loginUser = this.state.loginUser;
+    loginUser[propKey] = event.target.value;
+    this.setState({loginUser});
   }
 
   onSignout(event) {
     event.preventDefault();
     auth.signOut()
       .then(() => {
+        toastr.success('Logged out!', 'Success!');
       });
   }
 
   onSubmit(event) {
     event.preventDefault();
-    let user = this.state.user;
-    auth.signInWithEmail(user.signup_email, user.signup_password)
-      .then(user => {
-        console.log('login callback, user:');
-        console.log(user);
+    let user = this.state.loginUser;
+    auth.signInWithEmail(user.email, user.pass)
+      .then(loginUser => {
+        this.setState({
+          loginUser: {
+            email: '',
+            pass: ''
+          }
+        });
+        toastr.success('Logged in!', 'Success!');
       })
       .catch(err => {
-        console.log('login error:');
-        console.log(err);
+        toastr.error(err.message);
       });
   }
 
@@ -56,12 +66,25 @@ class AccountPage extends React.Component {
       <div className="row">
         <div className="column">
 
+          {!this.props.loggedIn &&
           <LoginForm
-            user={this.state.user}
+            user={this.state.loginUser}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             onSignout={this.onSignout}
-          />
+          />}
+
+          {this.props.loggedIn &&
+          <UserInfo
+            user={this.props.user}
+          />}
+
+          {this.props.loggedIn &&
+          <button
+            className="button button-outline"
+            onClick={this.onSignout}
+          >Logout
+          </button>}
 
         </div>
       </div>
@@ -73,6 +96,7 @@ class AccountPage extends React.Component {
  = Props Validation
  =============================================*/
 AccountPage.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired
 };
 
@@ -80,12 +104,9 @@ AccountPage.propTypes = {
  = Redux setup
  =============================================*/
 function mapStateToProps(state, ownProps) {
-  let user = {
-    signup_email: '',
-    signup_password: ''
-  };
   return {
-    user
+    loggedIn: !!state.user.email,
+    user: state.user
   };
 }
 

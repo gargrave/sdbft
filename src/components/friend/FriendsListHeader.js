@@ -5,7 +5,7 @@ const FriendsListHeader = ({loggedIn, addFriend}) => {
     <div>
       <div className="row">
         <div className="column">
-          <h1>Friends</h1>
+          <h2>Friends</h2>
         </div>
       </div>
       {loggedIn &&
@@ -13,8 +13,7 @@ const FriendsListHeader = ({loggedIn, addFriend}) => {
         <div className="column">
           <button onClick={addFriend}>Add a Friend</button>
         </div>
-      </div>
-      }
+      </div>}
     </div>
   );
 };

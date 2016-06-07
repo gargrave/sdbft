@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import {forEach} from 'lodash';
 
 // initialize the app
 firebase.initializeApp({

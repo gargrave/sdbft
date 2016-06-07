@@ -6,23 +6,23 @@ import PasswordInput from '../common/PasswordInput';
 const LoginForm = ({user, onChange, onSubmit, onSignout}) => {
   return (
     <div>
-      <h1>Login</h1>
+      <h2>Login</h2>
       <form>
 
         <TextInput
           label="Email"
-          value={user.signup_email}
+          value={user.email}
           placeholder="email"
-          name="signup_email"
+          name="email"
           onChange={onChange}
           error=""
         />
 
         <PasswordInput
           label="Password"
-          value={user.signup_password}
+          value={user.pass}
           placeholder="password"
-          name="signup_password"
+          name="pass"
           onChange={onChange}
           error=""
         />
@@ -32,12 +32,6 @@ const LoginForm = ({user, onChange, onSubmit, onSignout}) => {
           className="button"
           onClick={onSubmit}
         />&nbsp;
-
-        <button
-          className="button button-outline float-right"
-          onClick={onSignout}
-        >Logout
-        </button>
 
       </form>
     </div>

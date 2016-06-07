@@ -4,7 +4,7 @@ const HomePage = () => {
   return (
     <div className="row">
       <div className="column">
-        <h1>React Slingshot</h1>
+        <h1>Super Duper Best Friends Tracker</h1>
       </div>
     </div>
   );
