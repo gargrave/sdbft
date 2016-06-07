@@ -39,8 +39,15 @@ class FriendsPage extends React.Component {
       <div className="row">
         <div className="column">
 
-          <FriendsListHeader addFriend={this.onAddFriendClick}/>
-          <FriendsList friends={this.props.friends}/>
+          <FriendsListHeader
+            loggedIn={this.props.loggedIn}
+            addFriend={this.onAddFriendClick}
+          />
+
+          <FriendsList
+            loggedIn={this.props.loggedIn}
+            friends={this.props.friends}
+          />
 
         </div>
       </div>
@@ -52,6 +59,8 @@ class FriendsPage extends React.Component {
  = Props Validation
  =============================================*/
 FriendsPage.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
   friends: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
@@ -62,6 +71,8 @@ FriendsPage.propTypes = {
 //<editor-fold desc="Redux Setup">
 function mapStateToProps(state, ownProps) {
   return {
+    loggedIn: !!state.user.email,
+    user: state.user,
     friends: state.friends
   };
 }
