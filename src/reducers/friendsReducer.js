@@ -18,6 +18,10 @@ export default function friendsReducer(state = initialState.friends, action) {
     case types.DELETE_FRIEND_ERROR:
       return state;
 
+    // clear friends array on logout
+    case types.LOGOUT_SUCCESS:
+      return [];
+
     default:
       return state;
   }

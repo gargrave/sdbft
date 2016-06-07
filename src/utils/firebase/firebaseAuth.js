@@ -1,14 +1,8 @@
 import firebase from 'firebase';
 
-const auth = firebase.auth();
+import * as actions from '../../actions/authActions';
 
-auth.onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-  } else {
-    // No user is signed in.
-  }
-});
+const auth = firebase.auth();
 
 export default {
   isLoggedIn() {
