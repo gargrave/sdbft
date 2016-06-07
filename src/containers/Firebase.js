@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as friendsActions from '../actions/friendsActions';
-import firebase from '../firebaseApi';
+import firebase from '../utils/firebase/firebase';
 
 class Firebase extends React.Component {
   constructor(props, context) {

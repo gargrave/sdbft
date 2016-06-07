@@ -5,6 +5,7 @@ import App from './components/App';
 import HomePage from './components/HomePage';
 import FriendsPage from './containers/FriendsPage';
 import ManageFriendPage from './containers/ManageFriendPage';
+import AccountPage from './containers/AccountPage';
 import AboutPage from './components/AboutPage.js';
 import NotFoundPage from './components/NotFoundPage.js';
 
@@ -15,6 +16,8 @@ export default (
     <Route path="friends" component={FriendsPage}/>
     <Route path="friend" component={ManageFriendPage}/>
     <Route path="friend/:id" component={ManageFriendPage}/>
+
+    <Route path="account" component={AccountPage}/>
 
     <Route path="about" component={AboutPage}/>
     <Route path="*" component={NotFoundPage}/>

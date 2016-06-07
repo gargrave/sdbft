@@ -1,5 +1,7 @@
 import firebase from 'firebase';
+import {forEach} from 'lodash';
 
+// initialize the app
 firebase.initializeApp({
   apiKey: "AIzaSyAWsrE-syng6ke3fM52YBf7WvioVvKIiTA",
   authDomain: "react-test-5db9f.firebaseapp.com",

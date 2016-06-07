@@ -1,4 +1,4 @@
-import firebase from '../firebaseApi';
+import firebase from '../utils/firebase/firebase';
 
 const REF = firebase.database().ref('friends');
 
