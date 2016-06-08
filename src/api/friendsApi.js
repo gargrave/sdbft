@@ -3,8 +3,8 @@ import auth from '../utils/firebase/firebaseAuth';
 
 const DB = firebase.database();
 
-const getUrlFor = function(obj) {
-  return firebase.database().ref(`friends/${obj.id}`);
+const getUrlFor = function(user, obj) {
+  return firebase.database().ref(`friends/${user.uid}/${obj.id}`);
 };
 
 class FriendsApi {
@@ -32,28 +32,44 @@ class FriendsApi {
   }
 
   static updateFriend(friend) {
-    let friendUrl = getUrlFor(friend);
     return new Promise((resolve, reject) => {
-      friendUrl.update(friend, err => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
+      if (auth.isLoggedIn()) {
+        let friendUrl = getUrlFor(auth.user(), friend);
+        // make sure we don't send the friend with an id field, since the server already knows it
+        if (friend.hasOwnProperty('id')) {
+          delete friend.id;
         }
-      });
+
+        friendUrl.update(friend, err => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      } else {
+        // not logged in; reject immediately
+        reject('Not logged in');
+      }
     });
   }
 
   static deleteFriend(friend) {
-    let friendUrl = getUrlFor(friend);
     return new Promise((resolve, reject) => {
-      friendUrl.remove()
-        .then(function() {
-          resolve();
-        })
-        .catch(function(err) {
-          reject(err);
-        });
+      if (auth.isLoggedIn()) {
+        let friendUrl = getUrlFor(auth.user(), friend);
+
+        friendUrl.remove()
+          .then(function() {
+            resolve();
+          })
+          .catch(function(err) {
+            reject(err);
+          });
+      } else {
+        // not logged in; reject immediately
+        reject('Not logged in');
+      }
     });
   }
 }
