@@ -3,10 +3,10 @@ import React, {PropTypes} from 'react';
 import TextInput from '../common/TextInput';
 import PasswordInput from '../common/PasswordInput';
 
-const LoginForm = ({user, onChange, onSubmit, onGotoCreate}) => {
+const LoginForm = ({user, onChange, onSubmit, onGotoLogin}) => {
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Create an Account</h2>
       <form>
 
         <TextInput
@@ -14,6 +14,15 @@ const LoginForm = ({user, onChange, onSubmit, onGotoCreate}) => {
           value={user.email}
           placeholder="Email"
           name="email"
+          onChange={onChange}
+          error=""
+        />
+
+        <TextInput
+          label="Confirm Email"
+          value={user.emailConfirm}
+          placeholder="Re-enter Email"
+          name="emailConfirm"
           onChange={onChange}
           error=""
         />
@@ -27,6 +36,15 @@ const LoginForm = ({user, onChange, onSubmit, onGotoCreate}) => {
           error=""
         />
 
+        <PasswordInput
+          label="Confirm Password"
+          value={user.passConfirm}
+          placeholder="Confirm Password"
+          name="passConfirm"
+          onChange={onChange}
+          error=""
+        />
+
         <input
           type="submit"
           value="Submit"
@@ -36,7 +54,7 @@ const LoginForm = ({user, onChange, onSubmit, onGotoCreate}) => {
 
       </form>
 
-      <a href="" onClick={onGotoCreate}>New users click here</a>
+      <a href="" onClick={onGotoLogin}>Existing users click here</a>
     </div>
   );
 };
@@ -45,7 +63,7 @@ LoginForm.propTypes = {
   user: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onGotoCreate: PropTypes.func.isRequired
+  onGotoLogin: PropTypes.func.isRequired
 };
 
 export default LoginForm;
