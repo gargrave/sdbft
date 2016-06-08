@@ -10,23 +10,29 @@ class Firebase extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      friendsDbRef: ''
+    };
+
     this.onFriendsValueChange = this.onFriendsValueChange.bind(this);
   }
 
   componentDidMount() {
-    const REF = firebase.database().ref('friends');
     // link up auth listeners
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        // User is signed in.
+        // if logged in, watch for changes to relavent databases
         this.props.authActions.userLoggedIn(user);
-        // add db listeners
-        REF.on('value', this.onFriendsValueChange);
+        this.setState({
+          friendsDbRef: firebase.database().ref(`friends/${user.uid}`)
+        });
+        this.state.friendsDbRef.on('value', this.onFriendsValueChange);
       } else {
-        // No user is signed in.
+        // if logged out, clear all listeners
         this.props.authActions.userLoggedOut();
-        // remove db listeners
-        REF.off('value', this.onFriendsValueChange);
+        if (this.state.friendsDbRef.length > 0) {
+          this.state.friendsDbRef.off('value', this.onFriendsValueChange);
+        }
       }
     });
   }
