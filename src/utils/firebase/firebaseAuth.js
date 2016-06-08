@@ -1,23 +1,28 @@
 import firebase from 'firebase';
 
-import * as actions from '../../actions/authActions';
-
 const auth = firebase.auth();
 
 export default {
+  /**
+   * Returns the current user; will be null if not logged in
+   * @returns {firebase.User|null}
+   */
+  user() {
+    return auth.currentUser;
+  },
+
   isLoggedIn() {
     return auth.currentUser !== null;
   },
 
+  /**
+   * Attempts to create a new user on Firebase
+   * with the specified email and password.
+   * @param email
+   * @param pass
+   */
   newUserWithEmail(email, pass) {
-    console.log('newUserWithEmail');
-    auth.createUserWithEmailAndPassword(email, pass)
-      .catch(function(error) {
-        // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        console.log('error: ' + errorMessage);
-      });
+    return auth.createUserWithEmailAndPassword(email, pass);
   },
 
   signInWithEmail(email, pass) {
