@@ -33,6 +33,13 @@ class AccountPage extends React.Component {
         pass: '',
         passConfirm: ''
       },
+      // error messages for forms
+      errors: {
+        email: '',
+        emailConfirm: '',
+        password: '',
+        passwordConfirm: ''
+      },
       // current display state (only relavent when not logged in)
       displayState: DISPLAY_STATE.LOGIN
     };
@@ -80,9 +87,35 @@ class AccountPage extends React.Component {
   /*==============================================
    = Validation Methods
    ==============================================*/
+  /**
+   * Validates the data before submitting it for login; note that the data
+   * is also validated on the server, so this is merely a first line of defense.
+   * @returns {boolean} Whether the data is valid
+   */
   validateLogin() {
-    toastr.warning('Implement login validation', 'TODO');
-    return true;
+    let valid = true;
+    let errors = {};
+    let reEmail = /^\S+@\S+\.\S+$/;
+    let email = this.state.loginUser.email;
+    let pass = this.state.loginUser.pass;
+
+    // validate that email is present and appears to be valid
+    if (!email.length) {
+      errors.email = 'Email address is required';
+      valid = false;
+    } else if (!reEmail.test(email)) {
+      errors.email = 'Must be a valid email address';
+      valid = false;
+    }
+
+    // validate password length (Firebase min. is 6 digits)
+    if (pass.length < 6) {
+      errors.password = 'Password must be at least 6 digits';
+      valid = false;
+    }
+
+    this.setState({errors});
+    return valid;
   }
 
   validateCreate() {
@@ -118,12 +151,7 @@ class AccountPage extends React.Component {
       auth.signInWithEmail(user.email, user.pass)
         .then(loginUser => {
           // clear the stored details
-          this.setState({
-            loginUser: {
-              email: '',
-              pass: ''
-            }
-          });
+          this.setState({loginUser: {email: '', pass: ''}});
           toastr.success('Logged in!', 'Success!');
         })
         .catch(err => {
@@ -166,6 +194,7 @@ class AccountPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onLoginSubmit}
             onGotoCreate={this.gotoCreateState}
+            errors={this.state.errors}
           />}
 
           {/* show create form when in create state */}
@@ -175,6 +204,7 @@ class AccountPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onNewUserSubmit}
             onGotoLogin={this.gotoLoginState}
+            errors={this.state.errors}
           />}
 
           {/* show user details when logged in */}

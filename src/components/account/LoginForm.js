@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import TextInput from '../common/TextInput';
 import PasswordInput from '../common/PasswordInput';
 
-const LoginForm = ({user, onChange, onSubmit, onGotoCreate}) => {
+const LoginForm = ({user, onChange, onSubmit, onGotoCreate, errors}) => {
   return (
     <div>
       <h2>Login</h2>
@@ -15,7 +15,7 @@ const LoginForm = ({user, onChange, onSubmit, onGotoCreate}) => {
           placeholder="Email"
           name="email"
           onChange={onChange}
-          error=""
+          error={errors.email}
         />
 
         <PasswordInput
@@ -24,7 +24,7 @@ const LoginForm = ({user, onChange, onSubmit, onGotoCreate}) => {
           placeholder="Password"
           name="pass"
           onChange={onChange}
-          error=""
+          error={errors.password}
         />
 
         <input
@@ -45,7 +45,8 @@ LoginForm.propTypes = {
   user: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onGotoCreate: PropTypes.func.isRequired
+  onGotoCreate: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 export default LoginForm;
