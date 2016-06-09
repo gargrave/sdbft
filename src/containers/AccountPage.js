@@ -15,6 +15,9 @@ const DISPLAY_STATE = {
   FORGOT: 'FORGOT'
 };
 
+// regex for email testing
+const RE_EMAIL = /^\S+@\S+\.\S+$/;
+
 class AccountPage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -48,11 +51,11 @@ class AccountPage extends React.Component {
     this.isLoginState = this.isLoginState.bind(this);
     this.isCreateState = this.isCreateState.bind(this);
     this.isForgotState = this.isForgotState.bind(this);
-    this.validateLogin = this.validateLogin.bind(this);
-    this.validateCreate = this.validateCreate.bind(this);
+    this.validateUserData = this.validateUserData.bind(this);
+    this.validateUserDataWithConfirm = this.validateUserDataWithConfirm.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onLoginSubmit = this.onLoginSubmit.bind(this);
-    this.onNewUserSubmit = this.onNewUserSubmit.bind(this);
+    this.onSubmitLogin = this.onSubmitLogin.bind(this);
+    this.onSubmitNewUser = this.onSubmitNewUser.bind(this);
     this.onSignout = this.onSignout.bind(this);
     this.gotoCreateState = this.gotoCreateState.bind(this);
     this.gotoLoginState = this.gotoLoginState.bind(this);
@@ -92,18 +95,17 @@ class AccountPage extends React.Component {
    * is also validated on the server, so this is merely a first line of defense.
    * @returns {boolean} Whether the data is valid
    */
-  validateLogin() {
+  validateUserData(user) {
     let valid = true;
     let errors = {};
-    let reEmail = /^\S+@\S+\.\S+$/;
-    let email = this.state.loginUser.email;
-    let pass = this.state.loginUser.pass;
+    let email = user.email;
+    let pass = user.pass;
 
     // validate that email is present and appears to be valid
     if (!email.length) {
       errors.email = 'Email address is required';
       valid = false;
-    } else if (!reEmail.test(email)) {
+    } else if (!RE_EMAIL.test(email)) {
       errors.email = 'Must be a valid email address';
       valid = false;
     }
@@ -118,9 +120,44 @@ class AccountPage extends React.Component {
     return valid;
   }
 
-  validateCreate() {
-    toastr.warning('Implement new user validation', 'TODO');
-    return true;
+  /**
+   * Validates the data before submitting it for creating a user; note that the data
+   * is also validated on the server, so this is merely a first line of defense.
+   * @returns {boolean} Whether the data is valid
+   */
+  validateUserDataWithConfirm(user) {
+    let valid = true;
+    let errors = {};
+    let email = user.email;
+    let emailConfirm = user.emailConfirm;
+    let pass = user.pass;
+    let passConfirm = user.passConfirm;
+
+    // validate password length, format, and match with confirm
+    if (!email.length) {
+      errors.email = 'Email address is required';
+      valid = false;
+    } else if (!RE_EMAIL.test(email)) {
+      errors.email = 'Must be a valid email address';
+      valid = false;
+    } else if (email !== emailConfirm) {
+      errors.email = 'Emails do not match';
+      errors.emailConfirm = errors.email;
+      valid = false;
+    }
+
+    // validate password length (Firebase min. is 6 digits) and match with confirm
+    if (pass.length < 6) {
+      errors.password = 'Password must be at least 6 digits';
+      valid = false;
+    } else if (pass !== passConfirm) {
+      errors.password = 'Passwords do not match';
+      errors.passwordConfirm = errors.password;
+      valid = false;
+    }
+
+    this.setState({errors});
+    return false;
   }
 
   /*==============================================
@@ -143,10 +180,10 @@ class AccountPage extends React.Component {
       });
   }
 
-  onLoginSubmit(event) {
+  onSubmitLogin(event) {
     event.preventDefault();
 
-    if (this.validateLogin()) {
+    if (this.validateUserData(this.state.loginUser)) {
       let user = this.state.loginUser;
       auth.signInWithEmail(user.email, user.pass)
         .then(loginUser => {
@@ -164,10 +201,10 @@ class AccountPage extends React.Component {
    * Attempts to create a new user with the provided email/password
    * @param event
    */
-  onNewUserSubmit(event) {
+  onSubmitNewUser(event) {
     event.preventDefault();
 
-    if (this.validateCreate()) {
+    if (this.validateUserDataWithConfirm(this.state.newUser)) {
       let user = this.state.newUser;
       auth.newUserWithEmail(user.email, user.pass)
         .then(() => {
@@ -192,7 +229,7 @@ class AccountPage extends React.Component {
           <LoginForm
             user={this.state.loginUser}
             onChange={this.onChange}
-            onSubmit={this.onLoginSubmit}
+            onSubmit={this.onSubmitLogin}
             onGotoCreate={this.gotoCreateState}
             errors={this.state.errors}
           />}
@@ -202,7 +239,7 @@ class AccountPage extends React.Component {
           <CreateUserForm
             user={this.state.newUser}
             onChange={this.onChange}
-            onSubmit={this.onNewUserSubmit}
+            onSubmit={this.onSubmitNewUser}
             onGotoLogin={this.gotoLoginState}
             errors={this.state.errors}
           />}
