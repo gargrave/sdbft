@@ -165,7 +165,7 @@ class AccountPage extends React.Component {
     }
 
     this.setState({errors});
-    return false;
+    return valid;
   }
 
   /*==============================================
