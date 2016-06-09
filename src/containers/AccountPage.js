@@ -79,12 +79,20 @@ class AccountPage extends React.Component {
 
   gotoCreateState(event) {
     event.preventDefault();
-    this.setState({displayState: DISPLAY_STATE.CREATE});
+    this.setState({
+      newUser: {email: '', emailConfirm: '', pass: '', passConfirm: ''},
+      errors: {},
+      displayState: DISPLAY_STATE.CREATE
+    });
   }
 
   gotoLoginState(event) {
     event.preventDefault();
-    this.setState({displayState: DISPLAY_STATE.LOGIN});
+    this.setState({
+      loginUser: {email: '', pass: ''},
+      errors: {},
+      displayState: DISPLAY_STATE.LOGIN
+    });
   }
 
   /*==============================================
