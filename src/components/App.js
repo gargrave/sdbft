@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
 
 import Header from './common/Header';
-import Firebase from '../containers/Firebase';
+import FirebaseContainer from '../utils/firebase/FirebaseContainer';
 
 const App = (props) => {
   return (
     <div className="container">
-      <Firebase />
+      <FirebaseContainer />
       <Header />
       <hr/>
       {props.children}
