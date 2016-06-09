@@ -1,0 +1,10 @@
+{
+  "appId": "s4p4ubv04xaj-auth-test",
+  "apiKey": "045bedf2d414e303137a6aa95cca74fc4fbc6db3a3bcd84ed810c89d64a2c547",
+  "public": "./dist",
+  "ignore": [
+    "stamplay.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

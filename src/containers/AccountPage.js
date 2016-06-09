@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
-import * as actions from '../actions/friendsActions';
-import auth from '../utils/firebase/firebaseAuth';
+import * as actions from '../actions/authActions';
+import auth from '../utils/stamplay/StamplayAuth';
 import LoginForm from '../components/account/LoginForm';
 import CreateUserForm from '../components/account/CreateUserForm';
 import UserInfo from '../components/account/UserInfo';
@@ -182,9 +182,9 @@ class AccountPage extends React.Component {
 
   onSignout(event) {
     event.preventDefault();
-    auth.signOut()
+    auth.logout()
       .then(() => {
-        // no actions currently needed
+        this.props.actions.userLoggedOut();
       });
   }
 
@@ -192,15 +192,17 @@ class AccountPage extends React.Component {
     event.preventDefault();
 
     if (this.validateUserData(this.state.loginUser)) {
-      let user = this.state.loginUser;
-      auth.signInWithEmail(user.email, user.pass)
-        .then(loginUser => {
-          // clear the stored details
+      let credentials = {
+        email: this.state.loginUser.email,
+        password: this.state.loginUser.pass
+      };
+      auth.login(credentials)
+        .then(res => {
+          this.props.actions.userLoggedIn(res);
           this.setState({loginUser: {email: '', pass: ''}});
           toastr.success('Logged in!', 'Success!');
-        })
-        .catch(err => {
-          toastr.error(err.message);
+        }, err => {
+          toastr.error(err, 'Error!');
         });
     }
   }
@@ -214,13 +216,9 @@ class AccountPage extends React.Component {
 
     if (this.validateUserDataWithConfirm(this.state.newUser)) {
       let user = this.state.newUser;
-      auth.newUserWithEmail(user.email, user.pass)
-        .then(() => {
-          toastr.success('Account created!', 'Success!');
-        })
-        .catch(err => {
-          toastr.error(err.message);
-        });
+      let credentials = {};
+      auth.createUser(credentials);
+      toastr.warning('implement createUser()', 'TODO');
     }
   }
 
@@ -275,6 +273,7 @@ class AccountPage extends React.Component {
  = Props Validation
  =============================================*/
 AccountPage.propTypes = {
+  actions: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired
 };
