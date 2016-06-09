@@ -180,6 +180,10 @@ class AccountPage extends React.Component {
     this.setState({user});
   }
 
+  /**
+   * Logs out the current user
+   * @param event
+   */
   onSignout(event) {
     event.preventDefault();
     auth.logout()
@@ -188,6 +192,10 @@ class AccountPage extends React.Component {
       });
   }
 
+  /**
+   * Attempts to login the user with the entered credentials
+   * @param event
+   */
   onSubmitLogin(event) {
     event.preventDefault();
 
@@ -199,6 +207,7 @@ class AccountPage extends React.Component {
       auth.login(credentials)
         .then(res => {
           this.props.actions.userLoggedIn(res);
+          // clear the previously-held credentials
           this.setState({loginUser: {email: '', pass: ''}});
           toastr.success('Logged in!', 'Success!');
         }, err => {
@@ -215,10 +224,24 @@ class AccountPage extends React.Component {
     event.preventDefault();
 
     if (this.validateUserDataWithConfirm(this.state.newUser)) {
-      let user = this.state.newUser;
-      let credentials = {};
-      auth.createUser(credentials);
-      toastr.warning('implement createUser()', 'TODO');
+      let credentials = {
+        email: this.state.newUser.email,
+        password: this.state.newUser.pass
+      };
+      auth.createUser(credentials)
+        .then(res => {
+          this.props.actions.userLoggedIn(res);
+          // clear the previously-held credentials
+          this.setState({
+            newUser: {
+              email: '', emailConfirm: '',
+              pass: '', passConfirm: ''
+            }
+          });
+          toastr.success('Account created!', 'Success!');
+        }, err => {
+          toastr.error(err, 'Error!');
+        });
     }
   }
 

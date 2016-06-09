@@ -69,7 +69,18 @@ export default {
   },
 
   createUser(credentials) {
-    // http://docs.stamplay.com/?app=s4p4ubv04xaj-auth-test&lang=javascript#signup
-    console.log('createUser not implemented');
+    return new Promise((resolve, reject) => {
+      let creds = {
+        email: credentials.email,
+        password: credentials.password
+      };
+      Stamplay.User.signup(creds)
+        .then(res => {
+          setUser(res);
+          resolve(user);
+        }, err => {
+          reject(err.message);
+        });
+    });
   }
 };
