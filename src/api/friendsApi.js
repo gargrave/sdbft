@@ -4,7 +4,7 @@ import auth from '../utils/firebase/firebaseAuth';
 const DB = firebase.database();
 
 const getUrlFor = function(user, obj) {
-  return firebase.database().ref(`friends/${user.uid}/${obj.id}`);
+  return DB.ref(`friends/${user.uid}/${obj.id}`);
 };
 
 class FriendsApi {
