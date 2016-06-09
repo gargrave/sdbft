@@ -12,13 +12,13 @@ describe('<AboutPage />', () => {
     expect(actual).to.equal(expected);
   });
 
-  it('should have a header with \'alt-header\' class', () => {
-    const wrapper = shallow(<AboutPage />);
-    const actual = wrapper.find('h2').prop('className');
-    const expected = 'alt-header';
-
-    expect(actual).to.equal(expected);
-  });
+  // it('should have a header with \'alt-header\' class', () => {
+  //   const wrapper = shallow(<AboutPage />);
+  //   const actual = wrapper.find('h2').prop('className');
+  //   const expected = 'alt-header';
+  //
+  //   expect(actual).to.equal(expected);
+  // });
 
   it('should link to an unknown route path', () => {
     const wrapper = shallow(<AboutPage />);
