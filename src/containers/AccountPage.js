@@ -260,6 +260,7 @@ class AccountPage extends React.Component {
           {!this.props.loggedIn && this.isLoginState() &&
           <LoginForm
             user={this.state.loginUser}
+            working={this.props.working}
             onChange={this.onChange}
             onSubmit={this.onSubmitLogin}
             onGotoCreate={this.gotoCreateState}
@@ -270,6 +271,7 @@ class AccountPage extends React.Component {
           {!this.props.loggedIn && this.isCreateState() &&
           <CreateUserForm
             user={this.state.newUser}
+            working={this.props.working}
             onChange={this.onChange}
             onSubmit={this.onSubmitNewUser}
             onGotoLogin={this.gotoLoginState}
@@ -280,15 +282,17 @@ class AccountPage extends React.Component {
           {this.props.loggedIn &&
           <UserInfo
             user={this.props.user}
+            working={this.props.working}
           />}
 
           {this.props.loggedIn &&
           <button
             className="button button-outline"
+            disabled={this.props.working}
             onClick={this.onSignout}
           >Logout
           </button>}
-
+          
         </div>
       </div>
     );
@@ -300,6 +304,7 @@ class AccountPage extends React.Component {
  =============================================*/
 AccountPage.propTypes = {
   actions: PropTypes.object.isRequired,
+  working: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired
 };
@@ -310,6 +315,7 @@ AccountPage.propTypes = {
 //<editor-fold desc="Redux Setup">
 function mapStateToProps(state, ownProps) {
   return {
+    working: state.ajax.authApiWorking,
     loggedIn: state.status.loggedIn,
     user: state.user
   };

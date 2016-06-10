@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import TextInput from '../common/TextInput';
 import PasswordInput from '../common/PasswordInput';
 
-const LoginForm = ({user, onChange, onSubmit, onGotoLogin, errors}) => {
+const LoginForm = ({user, working, onChange, onSubmit, onGotoLogin, errors}) => {
   return (
     <div>
       <h2>Create an Account</h2>
@@ -49,6 +49,7 @@ const LoginForm = ({user, onChange, onSubmit, onGotoLogin, errors}) => {
           type="submit"
           value="Submit"
           className="button"
+          disabled={working}
           onClick={onSubmit}
         />&nbsp;
 
@@ -61,6 +62,7 @@ const LoginForm = ({user, onChange, onSubmit, onGotoLogin, errors}) => {
 
 LoginForm.propTypes = {
   user: PropTypes.object.isRequired,
+  working: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onGotoLogin: PropTypes.func.isRequired,

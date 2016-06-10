@@ -41,13 +41,13 @@ class ManageFriendPage extends React.Component {
     let email = this.state.friend.email;
     let twitter = this.state.friend.twitter;
 
-    if (first.length < 2) {
-      errors.firstName = 'First name must be a least 2 characters in length.';
+    if (!first.length) {
+      errors.firstName = 'First name is required.';
       valid = false;
     }
 
-    if (last.length < 2) {
-      errors.lastName = 'Last name must be a least 2 characters in length.';
+    if (!last.length) {
+      errors.lastName = 'Last name is required.';
       valid = false;
     }
 
