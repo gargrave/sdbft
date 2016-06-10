@@ -14,8 +14,7 @@ class ManageFriendPage extends React.Component {
 
     this.state = {
       friend: Object.assign({}, props.friend),
-      errors: {},
-      saving: false
+      errors: {}
     };
 
     //<editor-fold desc="Method Binders">
@@ -102,14 +101,12 @@ class ManageFriendPage extends React.Component {
       // show different message based on state
       let successMsg = 'Friend ' + (updating ? ' updated!' : 'created!');
 
-      this.setState({saving: true});
       apiCall(this.state.friend)
         .then(() => {
           toastr.success(successMsg, 'Success!');
           browserHistory.push('/friends');
         })
         .catch(err => {
-          this.setState({saving: false});
           toastr.error(err);
           browserHistory.push('/friends');
         });
@@ -138,7 +135,6 @@ class ManageFriendPage extends React.Component {
           browserHistory.push('/friends');
         })
         .catch(err => {
-          this.setState({saving: false});
           toastr.error(err);
           browserHistory.push('/friends');
         });
@@ -159,7 +155,7 @@ class ManageFriendPage extends React.Component {
           <hr/>
           <FriendForm
             friend={this.state.friend}
-            saving={this.state.saving}
+            working={this.props.working}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             onCancel={this.onCancel}

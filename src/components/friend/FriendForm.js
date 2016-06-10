@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 import TextInput from '../common/TextInput';
 
-const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
+const FriendForm = ({friend, working, onChange, onSubmit, onCancel, errors}) => {
   return (
     <form>
       <TextInput
@@ -45,13 +45,13 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
         type="submit"
         value="Submit"
         className="button"
-        disabled={saving}
+        disabled={working}
         onClick={onSubmit}
       />&nbsp;
 
       <button
         className="button button-outline float-right"
-        disabled={saving}
+        disabled={working}
         onClick={onCancel}
       >Cancel
       </button>
@@ -61,7 +61,7 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
 
 FriendForm.propTypes = {
   friend: PropTypes.object.isRequired,
-  saving: PropTypes.bool.isRequired,
+  working: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
