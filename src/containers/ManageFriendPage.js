@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
 import * as actions from '../actions/friendsActions';
+import {validate} from '../utils/validators';
 import FriendForm from '../components/friend/FriendForm';
 
 class ManageFriendPage extends React.Component {
@@ -41,23 +42,32 @@ class ManageFriendPage extends React.Component {
     let email = this.state.friend.email;
     let twitter = this.state.friend.twitter;
 
-    if (!first.length) {
-      errors.firstName = 'First name is required.';
+    // validate first and lst name
+    let nameParams = {required: true, maxLength: 100};
+    let firstNameVal = validate(first, nameParams);
+    if (!firstNameVal.valid) {
+      errors.firstName = firstNameVal.error;
+      valid = false;
+    }
+    let lastNameVal = validate(last, nameParams);
+    if (!lastNameVal.valid) {
+      errors.lastName = lastNameVal.error;
       valid = false;
     }
 
-    if (!last.length) {
-      errors.lastName = 'Last name is required.';
+    // validate email
+    let emailParams = {required: true, format: 'email'};
+    let emailVal = validate(email, emailParams);
+    if (!emailVal.valid) {
+      errors.email = emailVal.error;
       valid = false;
     }
 
-    if (email.length === 0) {
-      errors.email = 'You must provide an email address.';
-      valid = false;
-    }
-
-    if (twitter.length === 0) {
-      errors.twitter = 'You must provide a Twitter handle.';
+    // validate Twitter
+    let twitterParams = {required: true, format: 'twitter'};
+    let twitterVal = validate(twitter, twitterParams);
+    if (!twitterVal.valid) {
+      errors.twitter = twitterVal.error;
       valid = false;
     }
 
