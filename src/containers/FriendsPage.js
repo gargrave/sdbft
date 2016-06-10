@@ -44,6 +44,7 @@ class FriendsPage extends React.Component {
           />
 
           <FriendsList
+            working={this.props.working}
             loggedIn={this.props.loggedIn}
             friends={this.props.friends}
           />

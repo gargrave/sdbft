@@ -2,9 +2,10 @@ import React, {PropTypes} from 'react';
 
 import FriendRow from './FriendRow';
 import FriendRowLoading from './FriendRowLoading';
+import FriendRowEmpty from './FriendRowEmpty';
 import FriendRowNotAuth from './FriendRowNotAuth';
 
-const FriendsTable = ({loggedIn, friends}) => {
+const FriendsTable = ({working, loggedIn, friends}) => {
   return (
     <div className="row">
       <div className="column">
@@ -24,7 +25,8 @@ const FriendsTable = ({loggedIn, friends}) => {
           </tbody>
         </table>
         {!loggedIn && <FriendRowNotAuth />}
-        {loggedIn && !friends.length && <FriendRowLoading />}
+        {loggedIn && working && <FriendRowLoading />}
+        {loggedIn && !working && !friends.length && <FriendRowEmpty />}
 
       </div>
     </div>
@@ -32,6 +34,7 @@ const FriendsTable = ({loggedIn, friends}) => {
 };
 
 FriendsTable.propTypes = {
+  working: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   friends: PropTypes.array.isRequired
 };
