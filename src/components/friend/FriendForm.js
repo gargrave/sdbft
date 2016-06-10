@@ -7,20 +7,20 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
     <form>
       <TextInput
         label="First Name"
-        name="first_name"
-        value={friend.first_name}
+        name="firstName"
+        value={friend.firstName}
         placeholder="first name"
         onChange={onChange}
-        error={errors.first_name}
+        error={errors.firstName}
       />
 
       <TextInput
         label="Last Name"
-        name="last_name"
-        value={friend.last_name}
+        name="lastName"
+        value={friend.lastName}
         placeholder="last name"
         onChange={onChange}
-        error={errors.last_name}
+        error={errors.lastName}
       />
 
       <TextInput
@@ -43,6 +43,7 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
 
       <input
         type="submit"
+        value="Submit"
         className="button"
         disabled={saving}
         onClick={onSubmit}

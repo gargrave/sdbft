@@ -7,13 +7,25 @@ export default function friendsReducer(state = initialState.friends, action) {
       return action.friends;
 
     case types.SAVE_FRIEND_SUCCESS:
-      return state;
+      return [
+        ...state,
+        Object.assign({}, action.friend)
+      ];
 
     case types.SAVE_FRIEND_ERROR:
       return state;
 
-    case types.DELETE_FRIEND_SUCCESS:
+    case types.UPDATE_FRIEND_SUCCESS:
+      return [
+        ...state.filter(friend => friend.id !== action.friend.id),
+        Object.assign({}, action.friend)
+      ];
+
+    case types.UPDATE_FRIEND_ERROR:
       return state;
+
+    case types.DELETE_FRIEND_SUCCESS:
+      return state.filter(friend => friend.id !== action.friendId);
 
     case types.DELETE_FRIEND_ERROR:
       return state;

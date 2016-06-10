@@ -59,6 +59,7 @@ class FriendsPage extends React.Component {
  = Props Validation
  =============================================*/
 FriendsPage.propTypes = {
+  status: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   friends: PropTypes.array.isRequired,
@@ -71,7 +72,8 @@ FriendsPage.propTypes = {
 //<editor-fold desc="Redux Setup">
 function mapStateToProps(state, ownProps) {
   return {
-    loggedIn: !!state.user.email,
+    status: state.status,
+    loggedIn: !!state.user,
     user: state.user,
     friends: state.friends
   };

@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 const FriendRow = ({friend}) => {
   return (
     <tr>
-      <td><Link to={`/friend/${friend.id}`}>{friend.first_name} {friend.last_name}</Link></td>
+      <td><Link to={`/friend/${friend.id}`}>{friend.firstName} {friend.lastName}</Link></td>
       <td>{friend.email}</td>
       <td>{friend.twitter}</td>
     </tr>

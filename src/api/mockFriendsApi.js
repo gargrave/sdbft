@@ -4,56 +4,56 @@ let id = 0;
 const friends = [
   {
     id: id++,
-    first_name: "Barry",
-    last_name: "Linco",
+    firstName: "Barry",
+    lastName: "Linco",
     email: "barry@linco.com",
     twitter: "@blinc",
     total_articles: 0
   },
   {
     id: id++,
-    first_name: "Trish",
-    last_name: "Baby",
+    firstName: "Trish",
+    lastName: "Baby",
     email: "baby@baby.com",
     twitter: "@babybaby",
     total_articles: 0
   },
   {
     id: id++,
-    first_name: "Leila",
-    last_name: "Chambers",
+    firstName: "Leila",
+    lastName: "Chambers",
     email: "woxa@yahoo.com",
     twitter: "@RoLqDLY_283",
     total_articles: 4
   },
   {
     id: id++,
-    first_name: "Holly",
-    last_name: "Delgado",
+    firstName: "Holly",
+    lastName: "Delgado",
     email: "danaly@yahoo.com",
     twitter: "@JyHNJRl_332",
     total_articles: 0
   },
   {
     id: id++,
-    first_name: "Harper",
-    last_name: "Wheeler",
+    firstName: "Harper",
+    lastName: "Wheeler",
     email: "nilip@gmail.com",
     twitter: "@RvmcjRg_736",
     total_articles: 0
   },
   {
     id: id++,
-    first_name: "Otto",
-    last_name: "Zimmerman",
+    firstName: "Otto",
+    lastName: "Zimmerman",
     email: "lygolivaki@gmail.com",
     twitter: "@rvnfPEK_026",
     total_articles: 1
   },
   {
     id: id++,
-    first_name: "Jimmy",
-    last_name: "Jones",
+    firstName: "Jimmy",
+    lastName: "Jones",
     email: "jimmy.jones@gmail.com",
     twitter: "@SlimJimJones",
     total_articles: 1
