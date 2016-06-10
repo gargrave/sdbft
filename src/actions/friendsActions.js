@@ -105,7 +105,7 @@ export function updateFriend(friend) {
   return function(dispatch) {
     return API.updateFriend(friend)
       .then(res => {
-        dispatch(updateFriendSuccess(friend));
+        dispatch(updateFriendSuccess(res));
       })
       .catch(err => {
         dispatch(updateFriendError());
