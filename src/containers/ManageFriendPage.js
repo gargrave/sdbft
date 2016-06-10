@@ -101,6 +101,7 @@ class ManageFriendPage extends React.Component {
         .catch(err => {
           this.setState({saving: false});
           toastr.error(err);
+          browserHistory.push('/friends');
         });
     }
   }
@@ -124,12 +125,13 @@ class ManageFriendPage extends React.Component {
       this.props.actions.deleteFriend(this.state.friend.id)
         .then(() => {
           toastr.success('Friend deleted!', 'Success!');
+          browserHistory.push('/friends');
         })
         .catch(err => {
           this.setState({saving: false});
           toastr.error(err);
+          browserHistory.push('/friends');
         });
-      browserHistory.push('/friends');
     }
   }
 
