@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
 import * as actions from '../actions/authActions';
-import {isValidEmail, validate} from '../utils/validators';
+import {validate} from '../utils/validators';
 import auth from '../utils/stamplay/StamplayAuth';
 import LoginForm from '../components/account/LoginForm';
 import CreateUserForm from '../components/account/CreateUserForm';
@@ -104,21 +104,20 @@ class AccountPage extends React.Component {
   validateUserData(user) {
     let valid = true;
     let errors = {};
-    let email = user.email;
-    let pass = user.pass;
 
-    // validate that email is present and appears to be valid
-    if (!email.length) {
-      errors.email = 'Email address is required';
-      valid = false;
-    } else if (!isValidEmail(email)) {
-      errors.email = 'Must be a valid email address';
+    // validate email
+    let emailParams = {required: true, format: 'email'};
+    let emailVal = validate(user.email, emailParams);
+    if (!emailVal.valid) {
+      errors.email = emailVal.error;
       valid = false;
     }
 
-    // validate password length (Firebase min. is 6 digits)
-    if (pass.length < 6) {
-      errors.password = 'Password must be at least 6 digits';
+    // validate password
+    let passParams = {minLength: 6};
+    let passVal = validate(user.pass, passParams);
+    if (!passVal.valid) {
+      errors.password = passVal.error;
       valid = false;
     }
 
@@ -139,12 +138,11 @@ class AccountPage extends React.Component {
     let pass = user.pass;
     let passConfirm = user.passConfirm;
 
-    // validate password length, format, and match with confirm
-    if (!email.length) {
-      errors.email = 'Email address is required';
-      valid = false;
-    } else if (!isValidEmail(email)) {
-      errors.email = 'Must be a valid email address';
+    // validate email
+    let emailParams = {required: true, format: 'email'};
+    let emailVal = validate(user.email, emailParams);
+    if (!emailVal.valid) {
+      errors.email = emailVal.error;
       valid = false;
     } else if (email !== emailConfirm) {
       errors.email = 'Emails do not match';
@@ -152,9 +150,11 @@ class AccountPage extends React.Component {
       valid = false;
     }
 
-    // validate password length (Firebase min. is 6 digits) and match with confirm
-    if (pass.length < 6) {
-      errors.password = 'Password must be at least 6 digits';
+    // validate password
+    let passParams = {minLength: 6};
+    let passVal = validate(user.pass, passParams);
+    if (!passVal.valid) {
+      errors.password = passVal.error;
       valid = false;
     } else if (pass !== passConfirm) {
       errors.password = 'Passwords do not match';
@@ -292,7 +292,7 @@ class AccountPage extends React.Component {
             onClick={this.onSignout}
           >Logout
           </button>}
-          
+
         </div>
       </div>
     );
