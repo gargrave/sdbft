@@ -73,7 +73,7 @@ FriendsPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     status: state.status,
-    loggedIn: !!state.user,
+    loggedIn: state.status.loggedIn,
     user: state.user,
     friends: state.friends
   };

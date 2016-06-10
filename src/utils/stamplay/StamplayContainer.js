@@ -16,9 +16,9 @@ class StamplayContainer extends React.Component {
     auth.init()
       .then(res => {
         if (auth.isLoggedIn()) {
-          this.props.authActions.userLoggedIn(res);
+          this.props.authActions.loginSuccess(res);
         } else {
-          this.props.authActions.userLoggedOut();
+          this.props.authActions.logoutSuccess();
         }
       });
   }

@@ -2,20 +2,25 @@ import * as types from '../constants/actionTypes';
 import initialState from './initialState';
 
 export default function statusReducer(state = initialState.status, action) {
-  let newState = Object.assign({}, state);
+  let status = Object.assign({}, state);
   switch (action.type) {
 
     case types.LOGIN_SUCCESS:
-      newState.needFriendsApiRefresh = true;
-      return newState;
+      status.loggedIn = true;
+      status.needFriendsApiRefresh = true;
+      return status;
+
+    case types.LOGOUT_SUCCESS:
+      status.loggedIn = false;
+      return status;
 
     case types.FETCH_FRIENDS_BEGIN:
     case types.FETCH_FRIENDS_SUCCESS:
     case types.FETCH_FRIENDS_ERROR:
-      newState.needFriendsApiRefresh = false;
-      return newState;
+      status.needFriendsApiRefresh = false;
+      return status;
 
     default:
-      return state;
+      return status;
   }
 }

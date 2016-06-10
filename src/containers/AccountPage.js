@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
 import * as actions from '../actions/authActions';
+import {isValidEmail, validate} from '../utils/validators';
 import auth from '../utils/stamplay/StamplayAuth';
 import LoginForm from '../components/account/LoginForm';
 import CreateUserForm from '../components/account/CreateUserForm';
@@ -14,9 +15,6 @@ const DISPLAY_STATE = {
   CREATE: 'CREATE',
   FORGOT: 'FORGOT'
 };
-
-// regex for email testing
-const RE_EMAIL = /^\S+@\S+\.\S+$/;
 
 class AccountPage extends React.Component {
   constructor(props, context) {
@@ -113,7 +111,7 @@ class AccountPage extends React.Component {
     if (!email.length) {
       errors.email = 'Email address is required';
       valid = false;
-    } else if (!RE_EMAIL.test(email)) {
+    } else if (!isValidEmail(email)) {
       errors.email = 'Must be a valid email address';
       valid = false;
     }
@@ -145,7 +143,7 @@ class AccountPage extends React.Component {
     if (!email.length) {
       errors.email = 'Email address is required';
       valid = false;
-    } else if (!RE_EMAIL.test(email)) {
+    } else if (!isValidEmail(email)) {
       errors.email = 'Must be a valid email address';
       valid = false;
     } else if (email !== emailConfirm) {
@@ -186,9 +184,10 @@ class AccountPage extends React.Component {
    */
   onSignout(event) {
     event.preventDefault();
+    this.props.actions.authAjaxStart();
     auth.logout()
       .then(() => {
-        this.props.actions.userLoggedOut();
+        this.props.actions.logoutSuccess();
       });
   }
 
@@ -204,13 +203,15 @@ class AccountPage extends React.Component {
         email: this.state.loginUser.email,
         password: this.state.loginUser.pass
       };
+      this.props.actions.authAjaxStart();
       auth.login(credentials)
         .then(res => {
-          this.props.actions.userLoggedIn(res);
+          this.props.actions.loginSuccess(res);
           // clear the previously-held credentials
           this.setState({loginUser: {email: '', pass: ''}});
           toastr.success('Logged in!', 'Success!');
         }, err => {
+          this.props.actions.loginError(err);
           toastr.error(err, 'Error!');
         });
     }
@@ -228,9 +229,10 @@ class AccountPage extends React.Component {
         email: this.state.newUser.email,
         password: this.state.newUser.pass
       };
+      this.props.actions.authAjaxStart();
       auth.createUser(credentials)
         .then(res => {
-          this.props.actions.userLoggedIn(res);
+          this.props.actions.loginSuccess(res);
           // clear the previously-held credentials
           this.setState({
             newUser: {
@@ -240,6 +242,7 @@ class AccountPage extends React.Component {
           });
           toastr.success('Account created!', 'Success!');
         }, err => {
+          this.props.actions.loginError(err);
           toastr.error(err, 'Error!');
         });
     }
@@ -307,7 +310,7 @@ AccountPage.propTypes = {
 //<editor-fold desc="Redux Setup">
 function mapStateToProps(state, ownProps) {
   return {
-    loggedIn: !!state.user.email,
+    loggedIn: state.status.loggedIn,
     user: state.user
   };
 }
