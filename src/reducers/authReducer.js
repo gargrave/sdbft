@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 import initialState from './initialState';
 
-export default function friendsReducer(state = initialState.user, action) {
+export default function authReducer(state = initialState.user, action) {
   switch (action.type) {
 
     case types.LOGIN_SUCCESS:
