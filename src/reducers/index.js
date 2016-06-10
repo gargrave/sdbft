@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux';
 import status from './statusReducer';
-import ajax from './ajaxReducer';
+import api from './apiReducer';
 import user from './authReducer';
 import friends from './friendsReducer';
 
 const rootReducer = combineReducers({
   status,
-  ajax,
+  api,
   user,
   friends
 });

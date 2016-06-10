@@ -3,10 +3,10 @@ export default {
     loggedIn: false,
     needFriendsApiRefresh: false
   },
-  user: {},
-  ajax: {
+  api: {
     authApiWorking: false,
     friendsApiWorking: false
   },
+  user: {},
   friends: []
 };

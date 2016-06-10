@@ -7,6 +7,19 @@ import liveFriendsApi from '../api/friendsApi';
 const API = USE_MOCK_APIS ? mockFriendsApi : liveFriendsApi;
 
 
+function friendsAjaxStart() {
+  return {
+    type: types.FRIENDS_AJAX_START
+  };
+}
+
+function friendsAjaxEnd() {
+  return {
+    type: types.FRIENDS_AJAX_END
+  };
+}
+
+
 /* fetch friends actions */
 function fetchFriendsBegin() {
   return {
@@ -79,11 +92,14 @@ function deleteFriendError() {
 export function fetchFriends() {
   return function(dispatch) {
     dispatch(fetchFriendsBegin());
+    dispatch(friendsAjaxStart());
     return API.fetchFriends()
       .then(res => {
         dispatch(fetchFriendsSuccess(res.data));
+        dispatch(friendsAjaxEnd());
       }, err => {
         dispatch(fetchFriendsError());
+        dispatch(friendsAjaxEnd());
         throw Error(err);
       });
   };
@@ -91,11 +107,14 @@ export function fetchFriends() {
 
 export function saveFriend(friend) {
   return function(dispatch) {
+    dispatch(friendsAjaxStart());
     return API.saveFriend(friend)
       .then(res => {
         dispatch(saveFriendSuccess(res));
+        dispatch(friendsAjaxEnd());
       }, err => {
         dispatch(saveFriendError());
+        dispatch(friendsAjaxEnd());
         throw Error(err);
       });
   };
@@ -103,12 +122,15 @@ export function saveFriend(friend) {
 
 export function updateFriend(friend) {
   return function(dispatch) {
+    dispatch(friendsAjaxStart());
     return API.updateFriend(friend)
       .then(res => {
         dispatch(updateFriendSuccess(res));
+        dispatch(friendsAjaxEnd());
       })
       .catch(err => {
         dispatch(updateFriendError());
+        dispatch(friendsAjaxEnd());
         throw(err);
       });
   };
@@ -116,12 +138,15 @@ export function updateFriend(friend) {
 
 export function deleteFriend(friendId) {
   return function(dispatch) {
+    dispatch(friendsAjaxStart());
     return API.deleteFriend(friendId)
       .then(res => {
         dispatch(deleteFriendSuccess(friendId));
+        dispatch(friendsAjaxEnd());
       })
       .catch(err => {
         dispatch(deleteFriendError());
+        dispatch(friendsAjaxEnd());
         throw(err.message);
       });
   };

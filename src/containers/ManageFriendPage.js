@@ -168,6 +168,7 @@ class ManageFriendPage extends React.Component {
  = Props Validation
  =============================================*/
 ManageFriendPage.propTypes = {
+  working: PropTypes.bool.isRequired,
   header: PropTypes.string.isRequired,
   friend: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
@@ -203,6 +204,7 @@ function mapStateToProps(state, ownProps) {
   }
 
   return {
+    working: state.api.friendsApiWorking,
     friend,
     header
   };

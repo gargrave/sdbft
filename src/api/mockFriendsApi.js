@@ -70,7 +70,7 @@ class FriendsApi {
     });
   }
 
-  static createFriend(payload) {
+  static saveFriend(payload) {
     console.log('LOG: using mock friends API -> create.'); // eslint-disable-line no-console
     let friend = payload.friend;
     return new Promise((resolve) => {

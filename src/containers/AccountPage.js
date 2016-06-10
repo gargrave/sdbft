@@ -315,7 +315,7 @@ AccountPage.propTypes = {
 //<editor-fold desc="Redux Setup">
 function mapStateToProps(state, ownProps) {
   return {
-    working: state.ajax.authApiWorking,
+    working: state.api.authApiWorking,
     loggedIn: state.status.loggedIn,
     user: state.user
   };

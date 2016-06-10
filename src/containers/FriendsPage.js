@@ -34,7 +34,6 @@ class FriendsPage extends React.Component {
    = Render
    =============================================*/
   render() {
-    const {friends} = this.props;
     return (
       <div className="row">
         <div className="column">
@@ -59,7 +58,7 @@ class FriendsPage extends React.Component {
  = Props Validation
  =============================================*/
 FriendsPage.propTypes = {
-  status: PropTypes.object.isRequired,
+  working: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
   friends: PropTypes.array.isRequired,
@@ -72,7 +71,7 @@ FriendsPage.propTypes = {
 //<editor-fold desc="Redux Setup">
 function mapStateToProps(state, ownProps) {
   return {
-    status: state.status,
+    working: state.api.friendsApiWorking,
     loggedIn: state.status.loggedIn,
     user: state.user,
     friends: state.friends
