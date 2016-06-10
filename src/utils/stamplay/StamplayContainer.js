@@ -11,12 +11,23 @@ class StamplayContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    // initialize the auth handler, and call the apprioriate method
+    // i.e. are we logged in from a previous session?
     auth.init()
       .then(res => {
         if (auth.isLoggedIn()) {
           this.props.authActions.userLoggedIn(res);
+        } else {
+          this.props.authActions.userLoggedOut();
         }
       });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // watch for friends API refreshes
+    if (nextProps.status.needFriendsApiRefresh) {
+      this.props.friendsActions.fetchFriends();
+    }
   }
 
   render() {
@@ -30,6 +41,7 @@ class StamplayContainer extends React.Component {
  = Props Validation
  =============================================*/
 StamplayContainer.propTypes = {
+  status: PropTypes.object.isRequired,
   friendsActions: PropTypes.object.isRequired,
   authActions: PropTypes.object.isRequired
 };
@@ -39,7 +51,7 @@ StamplayContainer.propTypes = {
  =============================================*/
 function mapStateToProps(state, ownProps) {
   return {
-    state: state
+    status: state.status
   };
 }
 
