@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
 import * as actions from '../../friends/friendsActions';
+import validate from '../../../utils/validate';
 import auth from '../../../modules/firebase/firebaseAuth';
 import LoginForm from '../components/LoginForm';
 import CreateUserForm from '../components/CreateUserForm';
@@ -15,9 +16,6 @@ const DISPLAY_STATE = {
   CREATE: 'CREATE',
   FORGOT: 'FORGOT'
 };
-
-// regex for email testing
-const RE_EMAIL = /^\S+@\S+\.\S+$/;
 
 class AccountPage extends React.Component {
   constructor(props, context) {
@@ -102,26 +100,27 @@ class AccountPage extends React.Component {
   /**
    * Validates the data before submitting it for login; note that the data
    * is also validated on the server, so this is merely a first line of defense.
-   * @returns {boolean} Whether the data is valid
+   *
+   * @returns {boolean} Whether the data is valid (no early return because we want to make
+   *    sure to validate all fields, even if one has already failed)
    */
   validateUserData(user) {
     let valid = true;
     let errors = {};
-    let email = user.email;
-    let pass = user.pass;
 
-    // validate that email is present and appears to be valid
-    if (!email.length) {
-      errors.email = 'Email address is required';
-      valid = false;
-    } else if (!RE_EMAIL.test(email)) {
-      errors.email = 'Must be a valid email address';
+    // validate email
+    let emailParams = {required: true, format: 'email'};
+    let emailVal = validate(user.email, emailParams);
+    if (!emailVal.valid) {
+      errors.email = emailVal.error;
       valid = false;
     }
 
-    // validate password length (Firebase min. is 6 digits)
-    if (pass.length < 6) {
-      errors.password = 'Password must be at least 6 digits';
+    // validate password
+    let passParams = {minLength: 6};
+    let passVal = validate(user.pass, passParams);
+    if (!passVal.valid) {
+      errors.password = passVal.error;
       valid = false;
     }
 
@@ -132,7 +131,9 @@ class AccountPage extends React.Component {
   /**
    * Validates the data before submitting it for creating a user; note that the data
    * is also validated on the server, so this is merely a first line of defense.
-   * @returns {boolean} Whether the data is valid
+   *
+   * @returns {boolean} Whether the data is valid (no early return because we want to make
+   *    sure to validate all fields, even if one has already failed)
    */
   validateUserDataWithConfirm(user) {
     let valid = true;
@@ -142,12 +143,11 @@ class AccountPage extends React.Component {
     let pass = user.pass;
     let passConfirm = user.passConfirm;
 
-    // validate password length, format, and match with confirm
-    if (!email.length) {
-      errors.email = 'Email address is required';
-      valid = false;
-    } else if (!RE_EMAIL.test(email)) {
-      errors.email = 'Must be a valid email address';
+    // validate email
+    let emailParams = {required: true, format: 'email'};
+    let emailVal = validate(user.email, emailParams);
+    if (!emailVal.valid) {
+      errors.email = emailVal.error;
       valid = false;
     } else if (email !== emailConfirm) {
       errors.email = 'Emails do not match';
@@ -155,9 +155,11 @@ class AccountPage extends React.Component {
       valid = false;
     }
 
-    // validate password length (Firebase min. is 6 digits) and match with confirm
-    if (pass.length < 6) {
-      errors.password = 'Password must be at least 6 digits';
+    // validate password
+    let passParams = {minLength: 6};
+    let passVal = validate(user.pass, passParams);
+    if (!passVal.valid) {
+      errors.password = passVal.error;
       valid = false;
     } else if (pass !== passConfirm) {
       errors.password = 'Passwords do not match';
