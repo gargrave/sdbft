@@ -23,14 +23,14 @@ class Firebase extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // if logged in, watch for changes to relavent databases
-        this.props.authActions.userLoggedIn(user);
+        this.props.authActions.loginSuccess(user);
         this.setState({
           friendsDbRef: firebase.database().ref(`friends/${user.uid}`)
         });
         this.state.friendsDbRef.on('value', this.onFriendsValueChange);
       } else {
         // if logged out, clear all listeners
-        this.props.authActions.userLoggedOut();
+        this.props.authActions.logoutSuccess();
         if (this.state.friendsDbRef.length > 0) {
           this.state.friendsDbRef.off('value', this.onFriendsValueChange);
         }
