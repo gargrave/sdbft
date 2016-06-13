@@ -50,8 +50,8 @@ class AccountPage extends React.Component {
     this.isLoginState = this.isLoginState.bind(this);
     this.isCreateState = this.isCreateState.bind(this);
     this.isForgotState = this.isForgotState.bind(this);
-    this.validateUserData = this.validateUserData.bind(this);
-    this.validateUserDataWithConfirm = this.validateUserDataWithConfirm.bind(this);
+    this.isValid = this.isValid.bind(this);
+    this.isValidWithConfirm = this.isValidWithConfirm.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmitLogin = this.onSubmitLogin.bind(this);
     this.onSubmitNewUser = this.onSubmitNewUser.bind(this);
@@ -104,7 +104,7 @@ class AccountPage extends React.Component {
    * @returns {boolean} Whether the data is valid (no early return because we want to make
    *    sure to validate all fields, even if one has already failed)
    */
-  validateUserData(user) {
+  isValid(user) {
     let valid = true;
     let errors = {};
 
@@ -135,7 +135,7 @@ class AccountPage extends React.Component {
    * @returns {boolean} Whether the data is valid (no early return because we want to make
    *    sure to validate all fields, even if one has already failed)
    */
-  validateUserDataWithConfirm(user) {
+  isValidWithConfirm(user) {
     let valid = true;
     let errors = {};
     let email = user.email;
@@ -194,7 +194,7 @@ class AccountPage extends React.Component {
   onSubmitLogin(event) {
     event.preventDefault();
 
-    if (this.validateUserData(this.state.loginUser)) {
+    if (this.isValid(this.state.loginUser)) {
       let user = this.state.loginUser;
       auth.signInWithEmail(user.email, user.pass)
         .then(loginUser => {
@@ -215,7 +215,7 @@ class AccountPage extends React.Component {
   onSubmitNewUser(event) {
     event.preventDefault();
 
-    if (this.validateUserDataWithConfirm(this.state.newUser)) {
+    if (this.isValidWithConfirm(this.state.newUser)) {
       let user = this.state.newUser;
       auth.newUserWithEmail(user.email, user.pass)
         .then(() => {
