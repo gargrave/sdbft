@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
 import * as actions from '../friendsActions';
+import validate from '../../../utils/validate';
 import FriendForm from '../components/FriendForm';
 
 
@@ -34,31 +35,40 @@ class ManageFriendPage extends React.Component {
     }
   }
 
-  validate() {
+  isValid() {
     let valid = true;
     let errors = {};
-    let first = this.state.friend.first_name;
-    let last = this.state.friend.last_name;
-    let email = this.state.friend.email;
-    let twitter = this.state.friend.twitter;
+    let friend = this.state.friend;
 
-    if (first.length < 2) {
-      errors.first_name = 'First name must be a least 2 characters in length.';
+    // validate first name
+    let firstNameParams = {required: true, minLength: 2};
+    let firstNameVal = validate(friend.first_name, firstNameParams);
+    if (!firstNameVal.valid) {
+      errors.first_name = firstNameVal.error;
       valid = false;
     }
 
-    if (last.length < 2) {
-      errors.last_name = 'Last name must be a least 2 characters in length.';
+    // validate last name
+    let lastNameParams = {required: true, minLength: 2};
+    let lastNameVal = validate(friend.last_name, lastNameParams);
+    if (!lastNameVal.valid) {
+      errors.last_name = lastNameVal.error;
       valid = false;
     }
 
-    if (email.length === 0) {
-      errors.email = 'You must provide an email address.';
+    // validate email
+    let emailParams = {required: true, format: 'email'};
+    let emailVal = validate(friend.email, emailParams);
+    if (!emailVal.valid) {
+      errors.email = emailVal.error;
       valid = false;
     }
 
-    if (twitter.length === 0) {
-      errors.twitter = 'You must provide a Twitter handle.';
+    // validate twitter
+    let twitterParams = {format: 'twitter'};
+    let twitterVal = validate(friend.twitter, twitterParams);
+    if (!twitterVal.valid) {
+      errors.twitter = twitterVal.error;
       valid = false;
     }
 
@@ -84,7 +94,7 @@ class ManageFriendPage extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    if (this.validate()) {
+    if (this.isValid()) {
       const updating = !!this.props.friend.id;
       // if we have an existing friend id, update; otherwise create
       let apiCall = updating ?

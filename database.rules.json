@@ -9,18 +9,18 @@
         "$friend_id": {
           // validate first name and last name
           "first_name": {
-            ".validate": "newData.exists() && newData.val().length < 100"
+            ".validate": "newData.exists() && newData.isString() && newData.val().length < 100"
           },
           "last_name": {
-            ".validate": "newData.exists() && newData.val().length < 100"
+            ".validate": "newData.exists() && newData.isString() && newData.val().length < 100"
           },
           // validate email address
           "email": {
-            ".validate": "newData.exists() && newData.val().matches(/^\\S+@\\S+\\.\\S+$/)"
+            ".validate": "newData.exists() && newData.isString() && newData.val().matches(/^\\S+@\\S+\\.\\S+$/)"
           },
-          // validate twitter handle
+          // validate twitter handle (optional)
           "twitter": {
-            ".validate": "newData.exists() && newData.val().length < 16 && newData.val().matches(/^@[\\S]{1,15}$/)"
+            ".validate": "newData.val() === '' || (newData.val().length < 16 && newData.val().matches(/^@[\\S]{1,15}$/))"
           }
         }
       }

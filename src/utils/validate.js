@@ -21,26 +21,46 @@ function isValidTwitter(value) {
   return RE_TWITTER.test(value);
 }
 
-function validate(value, settings) {
+/**
+ * Checks whether the provided data is valid according to the rules provided.
+ *
+ * The rules object can contain the following properties:
+ *    required: boolean, whether the data MUST have a value
+ *    minLength: number, whether the data must meet a min-length requirement
+ *    maxLength: number, whether the data must meet a max-length requirement
+ *    format: string, a string to specify that the data must validate
+ *        against a pre-defined format; the formats are:
+ *
+ *        email: must be a valid email address format
+ *            (does not check if it is a "real" email address, only a valid one)
+ *        twitter: must be a valid Twitter handle
+ *            (starts with '@', and no more than 15 characters)
+ *
+ * @param value - The value to check for validation
+ * @param rules - The rules object specifying how the data needs to be validated
+ * @returns {Object} An object with two properties:
+ *      valid: boolean, whether the data validates
+ *      error: string, an appropriate error message is data is invalid; otherwise empty string
+ *        (Note that the function will return as soon as any rule is not met.)
+ */
+function validate(value, rules) {
+  const isRequired = rules.required;
+  const isBlank = !value.length || value === null || value === undefined;
+
   // check for required
-  if (settings.required) {
-    if (!value.length || value === null || value === undefined) {
-      return {
-        valid: false,
-        error: 'This field is required.'
-      };
-    }
+  if (isRequired && isBlank) {
+    return {
+      valid: false,
+      error: 'This field is required.'
+    };
   }
 
   // check for min-length
-  if (settings.minLength) {
-    let min = settings.minLength;
-    if (value.length === 0) {
-      return {
-        valid: false,
-        error: 'This field is required.'
-      };
-    } else if (value.length < min) {
+  const shouldCheckMinLength = rules.minLength &&
+    (isRequired || (!isRequired && !isBlank));
+  if (shouldCheckMinLength) {
+    const min = rules.minLength;
+    if (value.length < min) {
       return {
         valid: false,
         error: `Must be at least ${min} characters.`
@@ -49,8 +69,10 @@ function validate(value, settings) {
   }
 
   // check for max-length
-  if (settings.minLength) {
-    let max = settings.maxLength;
+  const shouldCheckMaxLength = rules.minLength &&
+    (isRequired || (!isRequired && !isBlank));
+  if (shouldCheckMaxLength) {
+    const max = rules.maxLength;
     if (value.length > max) {
       return {
         valid: false,
@@ -60,8 +82,10 @@ function validate(value, settings) {
   }
 
   // check for formatting requirements
-  if (settings.format) {
-    let format = settings.format.trim().toLowerCase();
+  const shouldCheckFormat = rules.format &&
+    (isRequired || (!isRequired && !isBlank));
+  if (shouldCheckFormat) {
+    const format = rules.format.trim().toLowerCase();
 
     // email address
     if (format === 'email') {

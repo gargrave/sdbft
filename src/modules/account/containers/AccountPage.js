@@ -117,7 +117,7 @@ class AccountPage extends React.Component {
     }
 
     // validate password
-    let passParams = {minLength: 6};
+    let passParams = {required: true, minLength: 6};
     let passVal = validate(user.pass, passParams);
     if (!passVal.valid) {
       errors.password = passVal.error;
@@ -156,7 +156,7 @@ class AccountPage extends React.Component {
     }
 
     // validate password
-    let passParams = {minLength: 6};
+    let passParams = {required: true, minLength: 6};
     let passVal = validate(user.pass, passParams);
     if (!passVal.valid) {
       errors.password = passVal.error;
