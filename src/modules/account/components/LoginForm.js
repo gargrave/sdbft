@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
 
-import TextInput from '../common/TextInput';
-import PasswordInput from '../common/PasswordInput';
+import TextInput from '../../../components/common/TextInput';
+import PasswordInput from '../../../components/common/PasswordInput';
+
 
 const LoginForm = ({user, onChange, onSubmit, onGotoCreate, errors}) => {
   return (

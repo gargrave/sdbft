@@ -5,7 +5,8 @@ import App from './components/App';
 import HomePage from './components/HomePage';
 import AboutPage from './components/AboutPage.js';
 import NotFoundPage from './components/NotFoundPage.js';
-import AccountPage from './containers/AccountPage';
+
+import AccountPage from './modules/account/containers/AccountPage';
 
 import FriendsPage from './modules/friends/containers/FriendsPage';
 import ManageFriendPage from './modules/friends/containers/ManageFriendPage';

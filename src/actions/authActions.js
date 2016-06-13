@@ -1,5 +1,6 @@
 import * as types from '../constants/actionTypes';
 
+
 function loginSuccess(user) {
   return {
     type: types.LOGIN_SUCCESS,

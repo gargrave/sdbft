@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
-import * as actions from '../modules/friends/friendsActions';
-import auth from '../utils/firebase/firebaseAuth';
-import LoginForm from '../components/account/LoginForm';
-import CreateUserForm from '../components/account/CreateUserForm';
-import UserInfo from '../components/account/UserInfo';
+import * as actions from '../../friends/friendsActions';
+import auth from '../../../utils/firebase/firebaseAuth';
+import LoginForm from '../components/LoginForm';
+import CreateUserForm from '../components/CreateUserForm';
+import UserInfo from '../components/UserInfo';
 
 
 const DISPLAY_STATE = {
