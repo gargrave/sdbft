@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import {USE_MOCK_APIS} from '../../constants/env';
-import {fbToArray} from '../../utils/firebase/firebaseUtils';
+import {fbToArray} from '../firebase/firebaseUtils';
 
 import mockFriendsApi from './mockFriendsApi';
 import liveFriendsApi from './friendsApi';

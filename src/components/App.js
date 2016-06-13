@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 import Header from './common/Header';
-import FirebaseContainer from '../utils/firebase/FirebaseContainer';
+import FirebaseContainer from '../modules/firebase/FirebaseContainer';
 
 
 const App = (props) => {

@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
 import * as actions from '../../friends/friendsActions';
-import auth from '../../../utils/firebase/firebaseAuth';
+import auth from '../../../modules/firebase/firebaseAuth';
 import LoginForm from '../components/LoginForm';
 import CreateUserForm from '../components/CreateUserForm';
 import UserInfo from '../components/UserInfo';

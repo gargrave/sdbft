@@ -2,8 +2,8 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import * as friendsActions from '../../modules/friends/friendsActions';
-import * as authActions from '../../actions/authActions';
+import * as friendsActions from '../friends/friendsActions';
+import * as authActions from '../auth/authActions';
 import firebase from './firebase';
 
 
@@ -49,9 +49,6 @@ class Firebase extends React.Component {
   }
 }
 
-/*=============================================
- = Props Validation
- =============================================*/
 Firebase.propTypes = {
   friendsActions: PropTypes.object.isRequired,
   authActions: PropTypes.object.isRequired
