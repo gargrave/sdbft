@@ -187,7 +187,7 @@ class AccountPage extends React.Component {
     event.preventDefault();
     auth.signOut()
       .then(() => {
-        // no actions currently needed
+        toastr.success('Logged out!', 'Success!');
       });
   }
 
