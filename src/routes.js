@@ -3,11 +3,13 @@ import {Route, IndexRoute} from 'react-router';
 
 import App from './components/App';
 import HomePage from './components/HomePage';
-import FriendsPage from './containers/FriendsPage';
-import ManageFriendPage from './containers/ManageFriendPage';
-import AccountPage from './containers/AccountPage';
 import AboutPage from './components/AboutPage.js';
 import NotFoundPage from './components/NotFoundPage.js';
+import AccountPage from './containers/AccountPage';
+
+import FriendsPage from './modules/friends/containers/FriendsPage';
+import ManageFriendPage from './modules/friends/containers/ManageFriendPage';
+
 
 export default (
   <Route path="/" component={App}>

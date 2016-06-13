@@ -4,6 +4,7 @@ import FriendRow from './FriendRow';
 import FriendRowLoading from './FriendRowLoading';
 import FriendRowNotAuth from './FriendRowNotAuth';
 
+
 const FriendsTable = ({loggedIn, friends}) => {
   return (
     <div className="row">

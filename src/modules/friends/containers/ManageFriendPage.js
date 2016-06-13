@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
-import * as actions from '../actions/friendsActions';
-import FriendForm from '../components/friend/FriendForm';
+import * as actions from '../friendsActions';
+import FriendForm from '../components/FriendForm';
+
 
 class ManageFriendPage extends React.Component {
   constructor(props, context) {
@@ -164,9 +165,6 @@ class ManageFriendPage extends React.Component {
   }
 }
 
-/*=============================================
- = Props Validation
- =============================================*/
 ManageFriendPage.propTypes = {
   header: PropTypes.string.isRequired,
   friend: PropTypes.object.isRequired,

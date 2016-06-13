@@ -1,4 +1,6 @@
-import {MOCK_API_DELAY} from '../constants/env';
+/* eslint-disable no-console */
+import {MOCK_API_DELAY} from '../../constants/env';
+
 
 let id = 0;
 const friends = [
@@ -62,7 +64,7 @@ const friends = [
 
 class FriendsApi {
   static fetchFriends() {
-    console.log('LOG: using mock friends API -> fetch all.'); // eslint-disable-line no-console
+    console.log('LOG: using mock friends API -> fetchFriends().');
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({friends: Object.assign([], friends)});
@@ -70,9 +72,9 @@ class FriendsApi {
     });
   }
 
-  static createFriend(payload) {
-    console.log('LOG: using mock friends API -> create.'); // eslint-disable-line no-console
-    let friend = payload.friend;
+  static createFriend(data) {
+    console.log('LOG: using mock friends API -> createFriend().');
+    let friend = data.friend;
     return new Promise((resolve) => {
       setTimeout(() => {
         friend.id = id++;

@@ -3,11 +3,10 @@ import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import * as actions from '../actions/friendsActions';
-import FriendsList from '../components/friend/FriendsList';
-import FriendsListHeader from '../components/friend/FriendsListHeader';
+import * as actions from '../friendsActions';
+import FriendsList from '../components/FriendsList';
+import FriendsListHeader from '../components/FriendsListHeader';
 
-import '../styles/friends-page.css';
 
 class FriendsPage extends React.Component {
   constructor(props, context) {
@@ -34,7 +33,6 @@ class FriendsPage extends React.Component {
    = Render
    =============================================*/
   render() {
-    const {friends} = this.props;
     return (
       <div className="row">
         <div className="column">
@@ -55,9 +53,6 @@ class FriendsPage extends React.Component {
   }
 }
 
-/*=============================================
- = Props Validation
- =============================================*/
 FriendsPage.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,

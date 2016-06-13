@@ -1,5 +1,6 @@
-import firebase from '../utils/firebase/firebase';
-import auth from '../utils/firebase/firebaseAuth';
+import firebase from '../../utils/firebase/firebase';
+import auth from '../../utils/firebase/firebaseAuth';
+
 
 const DB = firebase.database();
 

@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
-import * as actions from '../actions/friendsActions';
+import * as actions from '../modules/friends/friendsActions';
 import auth from '../utils/firebase/firebaseAuth';
 import LoginForm from '../components/account/LoginForm';
 import CreateUserForm from '../components/account/CreateUserForm';
 import UserInfo from '../components/account/UserInfo';
+
 
 const DISPLAY_STATE = {
   LOGIN: 'LOGIN',
@@ -271,9 +272,6 @@ class AccountPage extends React.Component {
   }
 }
 
-/*=============================================
- = Props Validation
- =============================================*/
 AccountPage.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired

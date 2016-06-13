@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 
+
 const FriendsListHeader = ({loggedIn, addFriend}) => {
   return (
     <div>

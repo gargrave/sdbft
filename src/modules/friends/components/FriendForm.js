@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 
-import TextInput from '../common/TextInput';
+import TextInput from '../../../components/common/TextInput';
+
 
 const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
   return (

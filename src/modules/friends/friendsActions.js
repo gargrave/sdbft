@@ -1,12 +1,12 @@
-import * as types from '../constants/actionTypes';
-import {USE_MOCK_APIS} from '../constants/env';
-import {fbToArray} from '../utils/firebase/firebaseUtils';
+import * as types from '../../constants/actionTypes';
+import {USE_MOCK_APIS} from '../../constants/env';
+import {fbToArray} from '../../utils/firebase/firebaseUtils';
 
-import mockFriendsApi from '../api/mockFriendsApi';
-import liveFriendsApi from '../api/friendsApi';
+import mockFriendsApi from './mockFriendsApi';
+import liveFriendsApi from './friendsApi';
+
 
 const API = USE_MOCK_APIS ? mockFriendsApi : liveFriendsApi;
-
 
 function fetchFriendsSuccess(friends) {
   return {

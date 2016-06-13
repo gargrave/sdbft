@@ -2,9 +2,10 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import * as friendsActions from '../../actions/friendsActions';
+import * as friendsActions from '../../modules/friends/friendsActions';
 import * as authActions from '../../actions/authActions';
 import firebase from './firebase';
+
 
 class Firebase extends React.Component {
   constructor(props, context) {
