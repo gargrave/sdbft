@@ -9,6 +9,7 @@ import goto from '../../../utils/goto';
 import * as actions from '../friendsActions';
 import FriendForm from '../components/FriendForm';
 import DeleteFriendLink from '../components/DeleteFriendLink';
+import FriendArticlesList from '../../articles/containers/FriendArticlesList';
 
 
 class ManageFriendPage extends React.Component {
@@ -165,15 +166,23 @@ class ManageFriendPage extends React.Component {
         />
 
         {this.props.friend.id && <DeleteFriendLink onDelete={this.onDelete}/>}
+
+        {this.props.friend.id &&
+        <div>
+          <hr/>
+          <FriendArticlesList
+            friend={this.state.friend}
+          />
+        </div>}
       </div>
     );
   }
 }
 
 ManageFriendPage.propTypes = {
+  actions: PropTypes.object.isRequired,
   header: PropTypes.string.isRequired,
-  friend: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  friend: PropTypes.object.isRequired
 };
 
 /*=============================================

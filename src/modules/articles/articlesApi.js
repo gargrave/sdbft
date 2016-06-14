@@ -2,22 +2,38 @@ import firebase from '../firebase/firebase';
 import auth from '../firebase/firebaseAuth';
 
 
-const MODULE_NAME = 'friends';
+const MODULE_NAME = 'articles';
 const DB = firebase.database();
 
 const getUrlFor = function(user, obj) {
   return DB.ref(`${MODULE_NAME}/${user.uid}/${obj.id}`);
 };
 
-class FriendsApi {
-  static createFriend(friend) {
+class ArticlesApi {
+  static fetchArticlesForFriend(friendId) {
     return new Promise((resolve, reject) => {
       if (auth.isLoggedIn()) {
-        // get the path to this user's 'friends' storage
-        let dbRef = DB.ref(`${MODULE_NAME}/${auth.user().uid}`);
-        let newFriend = dbRef.push();
+        let dbRef = DB.ref(`${MODULE_NAME}/${auth.user().uid}/${friendId}`);
+        dbRef.once('value')
+          .then(snapshot => {
+            resolve(snapshot.val());
+          });
+      }
+      else {
+        // not logged in; reject immediately
+        reject('Not logged in');
+      }
+    });
+  }
 
-        newFriend.set(friend, err => {
+  static createArticle(article) {
+    return new Promise((resolve, reject) => {
+      if (auth.isLoggedIn()) {
+        // get the path to this user's 'articles' storage
+        let dbRef = DB.ref(`${MODULE_NAME}/${auth.user().uid}`);
+        let newArticle = dbRef.push();
+
+        newArticle.set(article, err => {
           if (err) {
             reject(err);
           } else {
@@ -33,16 +49,16 @@ class FriendsApi {
     });
   }
 
-  static updateFriend(friend) {
+  static updateArticle(article) {
     return new Promise((resolve, reject) => {
       if (auth.isLoggedIn()) {
-        let friendUrl = getUrlFor(auth.user(), friend);
-        // make sure we don't send the friend with an id field, since the server already knows it
-        if (friend.hasOwnProperty('id')) {
-          delete friend.id;
+        let articleUrl = getUrlFor(auth.user(), article);
+        // make sure we don't send the article with an id field, since the server already knows it
+        if (article.hasOwnProperty('id')) {
+          delete article.id;
         }
 
-        friendUrl.update(friend, err => {
+        articleUrl.update(article, err => {
           if (err) {
             reject(err);
           } else {
@@ -56,12 +72,12 @@ class FriendsApi {
     });
   }
 
-  static deleteFriend(friend) {
+  static deleteArticle(article) {
     return new Promise((resolve, reject) => {
       if (auth.isLoggedIn()) {
-        let friendUrl = getUrlFor(auth.user(), friend);
+        let articleUrl = getUrlFor(auth.user(), article);
 
-        friendUrl.remove()
+        articleUrl.remove()
           .then(function() {
             resolve();
           })
@@ -76,4 +92,4 @@ class FriendsApi {
   }
 }
 
-export default FriendsApi;
+export default ArticlesApi;
