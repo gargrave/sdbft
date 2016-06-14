@@ -12,20 +12,28 @@ class FriendArticlesList extends React.Component {
   }
 
   componentDidMount() {
-    console.log('laksdjflkasjdfljk');
     this.props.actions.fetchArticlesForFriend(this.props.friend.id);
   }
 
   render() {
-    const {articles, friend} = this.props;
-
-    function asdf() {
-      return <p>fart</p>;
-    }
+    const {working, articles, friend} = this.props;
 
     return (
       <div>
         <h2>{friend.first_name}'s Articles</h2>
+
+        {/* working indicator when awaiting API response */}
+        {working &&
+        <h3 className="text-center">Loading articles...</h3>
+        }
+
+        {/* 'no articles' display for friends with no articles */}
+        {!working && articles.length === 0 &&
+        <h3 className="text-center">This friend currently has no articles.</h3>
+        }
+
+        {/* articles display when friend has at least one */}
+        {!working && !!articles.length &&
         <table>
           <thead>
           <tr>
@@ -39,13 +47,15 @@ class FriendArticlesList extends React.Component {
             <FriendArticleRow key={article.id} article={article}/>
           )}
           </tbody>
-        </table>
+        </table>}
+
       </div>
     );
   }
 }
 
 FriendArticlesList.propTypes = {
+  working: PropTypes.bool,
   actions: PropTypes.object.isRequired,
   friend: PropTypes.object.isRequired,
   articles: PropTypes.array
@@ -56,6 +66,7 @@ FriendArticlesList.propTypes = {
  =============================================*/
 function mapStateToProps(state, ownProps) {
   return {
+    working: state.api.articlesApiWorking,
     friend: ownProps.friend,
     articles: state.articles
   };

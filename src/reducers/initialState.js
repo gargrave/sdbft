@@ -1,5 +1,10 @@
 export default {
   user: {},
   friends: [],
-  articles: []
+  articles: [],
+  api: {
+    authApiWorking: false,
+    friendsApiWorking: false,
+    articlesApiWorking: false
+  }
 };
