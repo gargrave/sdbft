@@ -232,43 +232,39 @@ class AccountPage extends React.Component {
    ==============================================*/
   render() {
     return (
-      <div className="row">
-        <div className="column">
+      <div>
+        {/* show login form when in login state */}
+        {!this.props.loggedIn && this.isLoginState() &&
+        <LoginForm
+          user={this.state.loginUser}
+          onChange={this.onChange}
+          onSubmit={this.onSubmitLogin}
+          onGotoCreate={this.gotoCreateState}
+          errors={this.state.errors}
+        />}
 
-          {/* show login form when in login state */}
-          {!this.props.loggedIn && this.isLoginState() &&
-          <LoginForm
-            user={this.state.loginUser}
-            onChange={this.onChange}
-            onSubmit={this.onSubmitLogin}
-            onGotoCreate={this.gotoCreateState}
-            errors={this.state.errors}
-          />}
+        {/* show create form when in create state */}
+        {!this.props.loggedIn && this.isCreateState() &&
+        <CreateUserForm
+          user={this.state.newUser}
+          onChange={this.onChange}
+          onSubmit={this.onSubmitNewUser}
+          onGotoLogin={this.gotoLoginState}
+          errors={this.state.errors}
+        />}
 
-          {/* show create form when in create state */}
-          {!this.props.loggedIn && this.isCreateState() &&
-          <CreateUserForm
-            user={this.state.newUser}
-            onChange={this.onChange}
-            onSubmit={this.onSubmitNewUser}
-            onGotoLogin={this.gotoLoginState}
-            errors={this.state.errors}
-          />}
+        {/* show user details when logged in */}
+        {this.props.loggedIn &&
+        <UserInfo
+          user={this.props.user}
+        />}
 
-          {/* show user details when logged in */}
-          {this.props.loggedIn &&
-          <UserInfo
-            user={this.props.user}
-          />}
-
-          {this.props.loggedIn &&
-          <button
-            className="button button-outline"
-            onClick={this.onSignout}
-          >Logout
-          </button>}
-
-        </div>
+        {this.props.loggedIn &&
+        <button
+          className="button button-outline"
+          onClick={this.onSignout}
+        >Logout
+        </button>}
       </div>
     );
   }

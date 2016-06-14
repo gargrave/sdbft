@@ -4,16 +4,13 @@ import React, {PropTypes} from 'react';
 const FriendsListHeader = ({loggedIn, addFriend}) => {
   return (
     <div>
-      <div className="row">
-        <div className="column">
-          <h2>Friends</h2>
-        </div>
+      <div>
+        <h2>Friends</h2>
       </div>
+
       {loggedIn &&
-      <div className="row">
-        <div className="column">
-          <button onClick={addFriend}>Add a Friend</button>
-        </div>
+      <div>
+        <button onClick={addFriend}>Add a Friend</button>
       </div>}
     </div>
   );

@@ -10,7 +10,7 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
         label="First Name"
         name="first_name"
         value={friend.first_name}
-        placeholder="first name"
+        placeholder="First Name"
         onChange={onChange}
         error={errors.first_name}
       />
@@ -19,7 +19,7 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
         label="Last Name"
         name="last_name"
         value={friend.last_name}
-        placeholder="last name"
+        placeholder="Last Name"
         onChange={onChange}
         error={errors.last_name}
       />
@@ -28,7 +28,7 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
         label="Email"
         name="email"
         value={friend.email}
-        placeholder="email"
+        placeholder="Email"
         onChange={onChange}
         error={errors.email}
       />
@@ -37,20 +37,19 @@ const FriendForm = ({friend, saving, onChange, onSubmit, onCancel, errors}) => {
         label="Twitter"
         name="twitter"
         value={friend.twitter}
-        placeholder="twitter"
+        placeholder="Twitter"
         onChange={onChange}
         error={errors.twitter}
       />
 
       <input
         type="submit"
-        className="button"
         disabled={saving}
         onClick={onSubmit}
       />&nbsp;
 
       <button
-        className="button button-outline float-right"
+        className="button pseudo"
         disabled={saving}
         onClick={onCancel}
       >Cancel

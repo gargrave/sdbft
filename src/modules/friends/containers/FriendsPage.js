@@ -34,20 +34,16 @@ class FriendsPage extends React.Component {
    =============================================*/
   render() {
     return (
-      <div className="row">
-        <div className="column">
+      <div>
+        <FriendsListHeader
+          loggedIn={this.props.loggedIn}
+          addFriend={this.onAddFriendClick}
+        />
 
-          <FriendsListHeader
-            loggedIn={this.props.loggedIn}
-            addFriend={this.onAddFriendClick}
-          />
-
-          <FriendsList
-            loggedIn={this.props.loggedIn}
-            friends={this.props.friends}
-          />
-
-        </div>
+        <FriendsList
+          loggedIn={this.props.loggedIn}
+          friends={this.props.friends}
+        />
       </div>
     );
   }

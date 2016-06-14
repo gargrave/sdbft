@@ -1,12 +1,14 @@
 import React, {PropTypes} from 'react';
-import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
 
-import * as actions from '../friendsActions';
 import validate from '../../../utils/validate';
+import goto from '../../../utils/goto';
+
+import * as actions from '../friendsActions';
 import FriendForm from '../components/FriendForm';
+import DeleteFriendLink from '../components/DeleteFriendLink';
 
 
 class ManageFriendPage extends React.Component {
@@ -107,7 +109,7 @@ class ManageFriendPage extends React.Component {
       apiCall(this.state.friend)
         .then(() => {
           toastr.success(successMsg, 'Success!');
-          browserHistory.push('/friends');
+          goto.list('friend');
         })
         .catch(err => {
           this.setState({saving: false});
@@ -122,7 +124,7 @@ class ManageFriendPage extends React.Component {
    */
   onCancel(event) {
     event.preventDefault();
-    browserHistory.push('/friends/');
+    goto.list('friend');
   }
 
   /**
@@ -131,17 +133,16 @@ class ManageFriendPage extends React.Component {
    */
   onDelete(event) {
     event.preventDefault();
-    if (confirm('Delete this friend?')) {
-      this.props.actions.deleteFriend(this.state.friend)
-        .then(() => {
-          toastr.success('Friend deleted!', 'Success!');
-        })
-        .catch(err => {
-          this.setState({saving: false});
-          toastr.error(err);
-        });
-      browserHistory.push('/friends');
-    }
+
+    this.props.actions.deleteFriend(this.state.friend)
+      .then(() => {
+        toastr.success('Friend deleted!', 'Success!');
+        goto.list('friend');
+      })
+      .catch(err => {
+        this.setState({saving: false});
+        toastr.error(err);
+      });
   }
 
   //</editor-fold>
@@ -151,25 +152,19 @@ class ManageFriendPage extends React.Component {
    =============================================*/
   render() {
     return (
-      <div className="row">
-        <div className="column">
+      <div>
+        <h1>{this.props.header}</h1>
 
-          <h1>{this.props.header}</h1>
-          <hr/>
-          <FriendForm
-            friend={this.state.friend}
-            saving={this.state.saving}
-            onChange={this.onChange}
-            onSubmit={this.onSubmit}
-            onCancel={this.onCancel}
-            errors={this.state.errors}
-          />
-          <hr/>
-          {this.props.friend.id &&
-          <a href="" onClick={this.onDelete}>Delete this friend</a>
-          }
+        <FriendForm
+          friend={this.state.friend}
+          saving={this.state.saving}
+          onChange={this.onChange}
+          onSubmit={this.onSubmit}
+          onCancel={this.onCancel}
+          errors={this.state.errors}
+        />
 
-        </div>
+        {this.props.friend.id && <DeleteFriendLink onDelete={this.onDelete}/>}
       </div>
     );
   }

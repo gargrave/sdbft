@@ -4,7 +4,7 @@ import React from 'react';
 const AboutPage = () => {
   return (
     <div>
-      <h2>About SDBF Tracking</h2>
+      <h2>About SDBFT</h2>
     </div>
   );
 };

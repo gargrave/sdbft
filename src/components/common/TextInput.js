@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 const TextInput = ({label, value, placeholder, name, onChange, error}) => {
   return (
-    <div>
+    <div className="form-group">
       <label htmlFor={name}>{label}</label>
       {!!error && <span className="error-msg">{error}</span>}
       <input
