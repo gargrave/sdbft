@@ -1,18 +1,20 @@
 {
   "rules": {
+
     "friends": {
       "$uid": {
         // users can only read/write friends under their own IDs
         ".write": "$uid === auth.uid",
         ".read": "$uid === auth.uid",
+
         // friend object begins here
         "$friend_id": {
           // validate first name and last name
           "first_name": {
-            ".validate": "newData.exists() && newData.isString() && newData.val().length < 100"
+            ".validate": "newData.exists() && newData.isString() && newData.val().length > 2 && newData.val().length < 100"
           },
           "last_name": {
-            ".validate": "newData.exists() && newData.isString() && newData.val().length < 100"
+            ".validate": "newData.exists() && newData.isString() && newData.val().length > 2 && newData.val().length < 100"
           },
           // validate email address
           "email": {
@@ -21,6 +23,32 @@
           // validate twitter handle (optional)
           "twitter": {
             ".validate": "newData.val() === '' || (newData.val().length < 16 && newData.val().matches(/^@[\\S]{1,15}$/))"
+          }
+        }
+      }
+    },
+
+    "articles": {
+      "$uid": {
+        // users can only read/write articles under their own IDs
+        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid",
+
+        "$friend_id": {
+          // article object begins here
+          "$article_id": {
+            // validate name
+            "name": {
+              ".validate": "newData.exists() && newData.isString() && newData.val().length > 2 && newData.val().length < 100"
+            },
+            // validate description
+            "description": {
+              ".validate": "newData.exists() && newData.isString() && newData.val().length > 2 && newData.val().length < 100"
+            },
+            // validate status
+            "status": {
+              ".validate": "newData.exists()"
+            }
           }
         }
       }

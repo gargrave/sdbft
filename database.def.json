@@ -1,0 +1,29 @@
+{
+  "friends": {
+    "$OWNER_ID": {
+      "$FRIEND_ID": {
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "twitter": ""
+      }
+    }
+  },
+
+  "articles": {
+    "$OWNER_ID": {
+      "$FRIEND_ID": {
+        "$ARTICLE_ID": {
+          "name": "",
+          "description": "",
+          "status": ""
+        }
+      }
+    }
+  },
+
+  "profiles": {
+    "$OWNER_ID": {
+    }
+  }
+}
