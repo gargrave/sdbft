@@ -7,7 +7,7 @@ import routes from './routes';
 import configureStore from './store/configureStore';
 
 require('./favicon.ico');
-import 'picnic';
+import './styles/libs/picnic.min.css';
 import './styles/libs/toastr.min.css';
 import './styles/styles.scss';
 

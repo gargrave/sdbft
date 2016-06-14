@@ -6,7 +6,7 @@ const DeleteFriendLink = ({onDelete}) => {
     <div>
       <a href="">
         <label htmlFor="modal_1">
-          Delete this game
+          Delete this friend
         </label>
       </a>
 
