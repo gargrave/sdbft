@@ -16,11 +16,12 @@ class FriendArticlesList extends React.Component {
   }
 
   render() {
-    const {working, articles, friend} = this.props;
+    const {working, articles, friend, onAddArticle} = this.props;
 
     return (
       <div>
         <h2>{friend.first_name}'s Articles</h2>
+        <button className="success" onClick={onAddArticle}>Add an Article</button>
 
         {/* working indicator when awaiting API response */}
         {working &&
@@ -58,7 +59,8 @@ FriendArticlesList.propTypes = {
   working: PropTypes.bool,
   actions: PropTypes.object.isRequired,
   friend: PropTypes.object.isRequired,
-  articles: PropTypes.array
+  articles: PropTypes.array,
+  onAddArticle: PropTypes.func.isRequired
 };
 
 /*=============================================

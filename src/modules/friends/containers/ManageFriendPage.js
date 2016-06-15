@@ -26,6 +26,7 @@ class ManageFriendPage extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onAddArticleClick = this.onAddArticleClick.bind(this);
     //</editor-fold>
   }
 
@@ -146,6 +147,11 @@ class ManageFriendPage extends React.Component {
       });
   }
 
+  onAddArticleClick(event) {
+    event.preventDefault();
+    goto.route(`friend/${this.props.friend.id}/article`);
+  }
+
   //</editor-fold>
 
   /*=============================================
@@ -172,6 +178,7 @@ class ManageFriendPage extends React.Component {
           <hr/>
           <FriendArticlesList
             friend={this.state.friend}
+            onAddArticle={this.onAddArticleClick}
           />
         </div>}
       </div>

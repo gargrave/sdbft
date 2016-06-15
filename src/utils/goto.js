@@ -28,5 +28,9 @@ export default {
    */
   create(module) {
     this.detail(module);
+  },
+
+  route(route) {
+    browserHistory.push(route);
   }
 };
