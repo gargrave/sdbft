@@ -149,7 +149,7 @@ class ManageFriendPage extends React.Component {
 
   onAddArticleClick(event) {
     event.preventDefault();
-    goto.route(`friend/${this.props.friend.id}/article`);
+    goto.route(`/friend/${this.props.friend.id}/article`);
   }
 
   //</editor-fold>

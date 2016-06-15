@@ -20,8 +20,8 @@ export default (
 
     <Route path="friends" component={FriendsPage}/>
     <Route path="friend" component={ManageFriendPage}/>
-    <Route path="friend/:id/article" component={AddArticlePage}/>
     <Route path="friend/:id" component={ManageFriendPage}/>
+    <Route path="friend/:id/article" component={AddArticlePage}/>
 
     <Route path="account" component={AccountPage}/>
 
